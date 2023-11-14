@@ -1,11 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useEffect, useState } from "react";
+//styles
+import "./styles/app.scss";
+//components
+import Player from "./components/Player";
+import Song from "./components/Song";
+import Library from "./components/Library";
+import LibraryButton from "./components/LibraryButton";
+//song list
+import musicList from "./util";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
