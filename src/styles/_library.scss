@@ -1,0 +1,73 @@
+.library {
+  font-family: "Lato", sans-serif;
+  width: 20rem;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  transition: all 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 50px gray;
+  overflow: scroll;
+  overflow-x: hidden;
+
+  &.library-active {
+    transform: translateX(0%);
+  }
+}
+
+.library-song {
+  margin: 1.3%;
+  border-radius: 3px;
+  background-color: rgb(241, 241, 241);
+  display: flex;
+  align-items: center;
+  height: 13vh;
+  &.active-song {
+    background-color: rgb(184, 184, 184);
+  }
+  &:hover {
+    background-color: rgb(210, 210, 210);
+    cursor: pointer;
+  }
+  img {
+    width: 35%;
+    border-radius: 10%;
+    padding: 5px;
+  }
+  h1 {
+    font-size: Medium;
+    color: rgb(46, 46, 46);
+    padding: 0.3rem;
+  }
+  h2 {
+    font-size: Small;
+    color: rgb(116, 116, 116);
+    padding: 0.3rem;
+    padding-top: 0;
+  }
+}
+
+.library-song-info {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+}

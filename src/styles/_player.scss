@@ -1,0 +1,31 @@
+.controls {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.time-controls {
+  font-family: "Lato", sans-serif;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  input {
+    width: 100%;
+    padding: 0rem 0rem;
+  }
+  p {
+    padding: 1rem;
+  }
+}
+.song-controls {
+  min-height: 20vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 30%;
+  svg {
+    cursor: pointer;
+  }
+}
