@@ -7,7 +7,7 @@ const Song = ({ currSong }) => {
 
   return (
     <div className="song-container" style={songColor}>
-      <img src={currSong.coverURL} alt="sugma"></img>
+      <img src={currSong.coverURL} alt="album art"></img>
       <h1>{currSong.name}</h1>
       <h2>{currSong.artist}</h2>
     </div>

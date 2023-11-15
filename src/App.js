@@ -3,11 +3,16 @@ import React, { useRef, useEffect, useState } from "react";
 import "./styles/app.scss";
 //components
 import Player from "./components/Player";
+import ToolbarPlayer from "./components/ToolbarPlayer";
 import Song from "./components/Song";
 import Library from "./components/Library";
 import LibraryButton from "./components/LibraryButton";
+import ProfilePage from "./components/ProfilePage";
 //song list
 import musicList from "./util";
+// FontAwesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   const [listOfSongs, setListOfSongs] = useState(musicList());
@@ -21,6 +26,7 @@ function App() {
   });
   const [isPlaying, setIsPlaying] = useState(false); // Could set to true for automatic playback upon source load
   const [libraryActive, setLibraryActive] = useState(true);
+  const [musicMax, setMusicMax] = useState(true);
   const audioRef = useRef(null);
 
   // Play the next song when the current one ends
@@ -75,19 +81,37 @@ function App() {
         ref={audioRef}
         src={currSong.songURL}
       />
-      <LibraryButton
-        libraryActive={libraryActive}
-        setLibraryActive={setLibraryActive}
-      />
-      <Library
-        currSong={currSong}
-        setCurrSong={setCurrSong}
-        listOfSongs={listOfSongs}
-        libraryActive={libraryActive}
-      />
-      <div className="songAndPlayer">
-        <Song currSong={currSong} />
-        <Player
+      <div className={`app-holder ${musicMax ? "" : "music-min"}`}>
+        <div className={`music-page ${musicMax ? "" : "music-min"}`}>
+          <LibraryButton
+            libraryActive={libraryActive}
+            setLibraryActive={setLibraryActive}
+            musicMax={musicMax}
+            setMusicMax={setMusicMax}
+          />
+          <Library
+            currSong={currSong}
+            setCurrSong={setCurrSong}
+            listOfSongs={listOfSongs}
+            libraryActive={libraryActive}
+          />
+          <div className="songAndPlayer">
+            <Song currSong={currSong} />
+            <Player
+              currSong={currSong}
+              setCurrSong={setCurrSong}
+              listOfSongs={listOfSongs}
+              audioRef={audioRef}
+              isPlaying={isPlaying}
+              setIsPlaying={setIsPlaying}
+              songInfo={songInfo}
+              setSongInfo={setSongInfo}
+            />
+          </div>
+        </div>
+        <ToolbarPlayer
+          musicMax={musicMax}
+          setMusicMax={setMusicMax}
           currSong={currSong}
           setCurrSong={setCurrSong}
           listOfSongs={listOfSongs}
@@ -97,6 +121,7 @@ function App() {
           songInfo={songInfo}
           setSongInfo={setSongInfo}
         />
+        <ProfilePage currSong={currSong} musicMax={musicMax} />
       </div>
     </div>
   );

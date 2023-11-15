@@ -2,7 +2,12 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 
-const LibraryButton = ({ libraryActive, setLibraryActive }) => {
+const LibraryButton = ({
+  libraryActive,
+  setLibraryActive,
+  musicMax,
+  setMusicMax,
+}) => {
   // Toggle whether the Library is active (popped-out)
   const libraryToggleHandler = () => {
     setLibraryActive(!libraryActive);
