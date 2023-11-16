@@ -66,7 +66,7 @@ const ToolbarPlayer = ({
           onClick={playPauseHandler}
         />
       </div>
-      <div className="img-container">
+      <div className={`img-container ${musicMax ? "img-hidden" : ""}`}>
         <img src={currSong.coverURL} alt="album art"></img>
       </div>
     </div>

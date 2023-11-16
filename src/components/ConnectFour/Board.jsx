@@ -40,13 +40,11 @@ const Board = ({
   };
 
   const checkWinCondition = (ch, col, row) => {
-    console.log(ch);
     // Check horizontally
     if (
       countConsec(ch, col, row, 0, 1) + countConsec(ch, col, row, 0, -1) >=
       3
     ) {
-      console.log("winner vert");
       return true;
     }
     // Check vertically
@@ -54,7 +52,6 @@ const Board = ({
       countConsec(ch, col, row, -1, 0) + countConsec(ch, col, row, 1, 0) >=
       3
     ) {
-      console.log("winner horiz");
       return true;
     }
     // Check both diagonals
@@ -63,7 +60,6 @@ const Board = ({
         3 ||
       countConsec(ch, col, row, 1, -1) + countConsec(ch, col, row, -1, 1) >= 3
     ) {
-      console.log("winner diagonally");
       return true;
     }
     return false;

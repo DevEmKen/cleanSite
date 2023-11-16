@@ -44,7 +44,6 @@ function App() {
   // In other words, changing the song while paused doesn't un-pause
   useEffect(() => {
     if (isPlaying) {
-      console.log("playpromise exec");
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((error) => {

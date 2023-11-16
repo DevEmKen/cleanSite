@@ -24,6 +24,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
+  transition: opacity 0.5s;
+  &.img-hidden {
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
 }
 
 .min-max {

@@ -30,24 +30,36 @@
   }
   &:hover {
     background-color: rgb(210, 210, 210);
-    cursor: pointer;
   }
   img {
     width: 35%;
     border-radius: 10%;
     padding: 5px;
+    cursor: pointer;
   }
   h1 {
     font-size: Medium;
     color: rgb(46, 46, 46);
     padding: 0.2rem;
     padding-bottom: 0.1rem;
+    cursor: pointer;
+    width: -moz-fit-content;
+    width: fit-content;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   h2 {
     font-size: Small;
     color: rgb(116, 116, 116);
     padding: 0.2rem;
     padding-top: 0;
+    cursor: pointer;
+    width: -moz-fit-content;
+    width: fit-content;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
