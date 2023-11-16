@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "tsc && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -40,6 +40,7 @@
     ]
   },
   "devDependencies": {
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "typescript": "^5.2.2"
   }
 }

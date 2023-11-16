@@ -86,7 +86,7 @@ const Player = ({
           size="2x"
           icon={faAngleLeft}
           onClick={() => skipHandler("skip-back")}
-          style={{ padding: "30px" }}
+          style={{}}
         />
         <FontAwesomeIcon
           className="play"

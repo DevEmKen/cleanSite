@@ -79,20 +79,23 @@ const ToolbarPlayer = ({
           size="2x"
           icon={faAngleLeft}
           onClick={() => skipHandler("skip-back")}
-          style={{ paddingRight: "20px" }}
+          style={{ paddingRight: "40px" }}
         />
+
         <FontAwesomeIcon
           className="play"
           size="2x"
           icon={isPlaying ? faPause : faPlay}
+          style={{ width: "30px" }} //faPause and faPlay are a different width, so even them out
           onClick={playPauseHandler}
         />
+
         <FontAwesomeIcon
           className="skip-forward"
           size="2x"
           icon={faAngleRight}
           onClick={() => skipHandler("skip-forward")}
-          style={{ paddingLeft: "20px" }}
+          style={{ paddingLeft: "40px" }}
         />
       </div>
       <div className={`img-container ${musicMax ? "img-hidden" : ""}`}>
