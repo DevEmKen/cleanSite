@@ -1,6 +1,6 @@
-import redCir from "../assets/red.svg";
-import blackCir from "../assets/black.svg";
-import whiteCir from "../assets/white.svg";
+import redCir from "./red.svg";
+import blackCir from "./black.svg";
+import whiteCir from "./white.svg";
 
 const Slot = ({ ch, x, y }) => {
   return (

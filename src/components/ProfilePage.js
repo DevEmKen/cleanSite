@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 
-import ConnectFour from "./ConnectFour";
+import ConnectFour from "./ConnectFour/ConnectFour";
 
 const ProfilePage = ({ currSong, musicMax }) => {
   const Bad = () => {
@@ -37,7 +37,7 @@ const ProfilePage = ({ currSong, musicMax }) => {
 
   return (
     <div className={`prof-page ${musicMax ? "" : "music-min"}`}>
-      <ConnectFour />
+      <ConnectFour currSong={currSong} />
       <Bad />
     </div>
   );

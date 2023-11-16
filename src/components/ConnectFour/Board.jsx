@@ -10,6 +10,7 @@ const Board = ({
   playerTurn,
   setPlayerTurn,
   setWhoWon,
+  currSong,
 }) => {
   const handleMove = (ind) => {
     if (!gameOver) {
@@ -88,10 +89,14 @@ const Board = ({
     return count;
   };
 
+  const songColor = {
+    backgroundColor: `${currSong.color}`,
+  };
+
   return (
     <div className="layout">
       <div className="blueEdge" />
-      <div className="board">
+      <div className="board" style={songColor}>
         <div className="slot-col" onClick={() => handleMove(0)}>
           {board[0].map((ch, y) => {
             return <Slot ch={ch} x={0} y={y} key={uuidv4()} />;

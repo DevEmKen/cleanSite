@@ -26,7 +26,7 @@ function App() {
   });
   const [isPlaying, setIsPlaying] = useState(false); // Could set to true for automatic playback upon source load
   const [libraryActive, setLibraryActive] = useState(true);
-  const [musicMax, setMusicMax] = useState(true);
+  const [musicMax, setMusicMax] = useState(false);
   const audioRef = useRef(null);
 
   // Play the next song when the current one ends

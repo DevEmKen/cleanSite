@@ -3,7 +3,7 @@ import { useState } from "react";
 import Board from "./Board";
 import GameStatus from "./GameStatus";
 
-const ConnectFour = () => {
+const ConnectFour = ({ currSong }) => {
   const [playerTurn, setPlayerTurn] = useState(true); //red is true
   const [gameOver, setGameOver] = useState(false);
   const [whoWon, setWhoWon] = useState("Red");
@@ -16,6 +16,7 @@ const ConnectFour = () => {
     ["", "", "", "", "", ""],
     ["", "", "", "", "", ""],
   ]);
+
   return (
     <div className="con-four">
       <GameStatus
@@ -34,6 +35,7 @@ const ConnectFour = () => {
         playerTurn={playerTurn}
         setPlayerTurn={setPlayerTurn}
         setWhoWon={setWhoWon}
+        currSong={currSong}
       />
     </div>
   );
