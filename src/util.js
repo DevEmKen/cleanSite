@@ -3,6 +3,26 @@ import { v4 as uuidv4 } from "uuid";
 function musicList() {
   return [
     {
+      name: "Tokyo Cafe",
+      artist: "TVARI",
+      coverURL:
+        "https://cdn.pixabay.com/audio/2023/07/22/02-53-18-138_200x200.jpg",
+      songURL: "https://cdn.pixabay.com/audio/2023/07/22/audio_720626056a.mp3",
+      color: "rgb(228, 138, 86)",
+      id: uuidv4(),
+      active: false,
+    },
+    {
+      name: "Titanium",
+      artist: "Alisha Sutudo",
+      coverURL:
+        "https://cdn.pixabay.com/audio/2023/10/06/12-10-40-317_200x200.png",
+      songURL: "https://cdn.pixabay.com/audio/2023/10/06/audio_14f9198f0b.mp3",
+      color: "rgb(209,141,227)",
+      id: uuidv4(),
+      active: false,
+    },
+    {
       name: "It's Okay",
       artist: "Yasper",
       coverURL:
@@ -32,16 +52,7 @@ function musicList() {
       id: uuidv4(),
       active: false,
     },
-    {
-      name: "Titanium",
-      artist: "Alisha Sutudo",
-      coverURL:
-        "https://cdn.pixabay.com/audio/2023/10/06/12-10-40-317_200x200.png",
-      songURL: "https://cdn.pixabay.com/audio/2023/10/06/audio_14f9198f0b.mp3",
-      color: "rgb(209,141,227)",
-      id: uuidv4(),
-      active: false,
-    },
+
     {
       name: "Baby Mandala",
       artist: "prazhanal",
@@ -73,32 +84,22 @@ function musicList() {
       active: false,
     },
     {
-      name: "Tokyo Cafe",
-      artist: "TVARI",
+      name: "Ambient Classical Guitar",
+      artist: "William King",
       coverURL:
-        "https://cdn.pixabay.com/audio/2023/07/22/02-53-18-138_200x200.jpg",
-      songURL: "https://cdn.pixabay.com/audio/2023/07/22/audio_720626056a.mp3",
-      color: "rgb(222,135,74)",
+        "https://cdn.pixabay.com/audio/2023/04/03/14-44-18-281_200x200.png",
+      songURL: "https://cdn.pixabay.com/audio/2023/04/03/audio_6700efb297.mp3",
+      color: ["gray"],
       id: uuidv4(),
       active: false,
     },
     {
-      name: "Titanium",
-      artist: "Alisha_Sutudo",
+      name: "Waterfall",
+      artist: "RomanSenykMusic",
       coverURL:
-        "https://cdn.pixabay.com/audio/2023/10/06/12-10-40-317_200x200.png",
-      songURL: "https://cdn.pixabay.com/audio/2023/10/06/audio_14f9198f0b.mp3",
-      color: ["#c97f7f", "#4eaf45"],
-      id: uuidv4(),
-      active: false,
-    },
-    {
-      name: "Titanium",
-      artist: "Alisha_Sutudo",
-      coverURL:
-        "https://cdn.pixabay.com/audio/2023/10/06/12-10-40-317_200x200.png",
-      songURL: "https://cdn.pixabay.com/audio/2023/10/06/audio_14f9198f0b.mp3",
-      color: ["#c97f7f", "#4eaf45"],
+        "https://cdn.pixabay.com/audio/2023/02/28/09-32-41-52_200x200.png",
+      songURL: "https://cdn.pixabay.com/audio/2023/02/28/audio_550d815fa5.mp3",
+      color: ["rgb(243,176,109)"],
       id: uuidv4(),
       active: false,
     },

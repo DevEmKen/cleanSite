@@ -94,6 +94,7 @@ function App() {
             setCurrSong={setCurrSong}
             listOfSongs={listOfSongs}
             libraryActive={libraryActive}
+            setIsPlaying={setIsPlaying}
           />
           <div className="songAndPlayer">
             <Song currSong={currSong} />

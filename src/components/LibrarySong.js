@@ -1,7 +1,8 @@
 import React from "react";
 
-const LibrarySong = ({ song, currSong, setCurrSong }) => {
+const LibrarySong = ({ song, currSong, setCurrSong, setIsPlaying }) => {
   const librarySongSelectHandler = () => {
+    setIsPlaying(true);
     setCurrSong(song);
   };
 
