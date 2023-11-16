@@ -32,9 +32,14 @@ const ProfilePage = ({ currSong, musicMax }) => {
       </div>
     );
   };
-
+  const songColor = {
+    background: `linear-gradient(to bottom, ${currSong.color}, white)`,
+  };
   return (
-    <div className={`prof-page ${musicMax ? "" : "music-min"}`}>
+    <div
+      className={`prof-page ${musicMax ? "" : "music-min"}`}
+      style={songColor}
+    >
       <Projects currSong={currSong} />
     </div>
   );

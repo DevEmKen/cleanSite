@@ -2,9 +2,12 @@ import { useState } from "react";
 
 import ConnectFour from "./ConnectFour/ConnectFour";
 import FileTree from "./FileTree";
-import ProjectCard from "./ProjectCard";
+import ProjectCardLocal from "./ProjectCardLocal";
+import ProjectCardExt from "./ProjectCardExt";
 import connectpng from "../assets/connectpng.png";
 import folderpng from "../assets/folderspng.png";
+import wordscramblepng from "../assets/wordscramblepng.png";
+import reddalyzer from "../assets/reddalyzer.png";
 
 const Projects = ({ currSong }) => {
   const card1 = {
@@ -19,19 +22,51 @@ const Projects = ({ currSong }) => {
       "A visual implementation of the typical tree structure used for file directories. Supports dynamic creation and deletion of files and directories.",
     image: folderpng,
   };
+  const card3 = {
+    title: "WordScramble",
+    description:
+      "Boggle-like app (Java, Android Studio) that recursively solves the board, utilizing multithreading to improve user experience and reduce stuttering.",
+    image: wordscramblepng,
+    github: true,
+    google: true,
+  };
+  const card4 = {
+    title: "Reddalyzer",
+    description:
+      "Chrome extension that lists any Reddit threads for the current URL, if they exist. Written in Javascript, HTML, and CSS, it uses JQuery to call the Reddit API and search for relevant threads. ",
+    image: reddalyzer,
+    github: true,
+    google: true,
+  };
 
   return (
     <div className="projects">
       <div className="cards">
-        <ProjectCard
+        <ProjectCardLocal
           title={card1.title}
           description={card1.description}
           image={card1.image}
         />
-        <ProjectCard
+        <ProjectCardLocal
           title={card2.title}
           description={card2.description}
           image={card2.image}
+        />
+      </div>
+      <div className="cards">
+        <ProjectCardExt
+          title={card3.title}
+          description={card3.description}
+          image={card3.image}
+          google={card3.google}
+          github={card3.github}
+        />
+        <ProjectCardExt
+          title={card4.title}
+          description={card4.description}
+          image={card4.image}
+          google={card4.google}
+          github={card4.github}
         />
       </div>
       <FileTree />
