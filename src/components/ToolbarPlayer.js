@@ -46,6 +46,21 @@ const ToolbarPlayer = ({
       }
     }
   };
+
+  const skipHandler = (icon) => {
+    let ind = listOfSongs.findIndex((song) => song.id === currSong.id);
+    if (icon === "skip-back") {
+      // Set currSong to previous song. Modulus handles edge case.
+      // Must add listOfSongs.length to the index before the modulus, as Javascript modulus can have negative remainders
+      setCurrSong(
+        listOfSongs[(ind - 1 + listOfSongs.length) % listOfSongs.length]
+      );
+    }
+    if (icon === "skip-forward") {
+      // Set currSong to next song. Modulus handles edge case
+      setCurrSong(listOfSongs[(ind + 1) % listOfSongs.length]);
+    }
+  };
   return (
     <div
       className={`toolbar-player ${musicMax ? "" : "music-min"}`}
@@ -60,10 +75,24 @@ const ToolbarPlayer = ({
       </div>
       <div className={`play-pause ${musicMax ? "play-pause-hidden" : ""}`}>
         <FontAwesomeIcon
+          className="skip-back"
+          size="2x"
+          icon={faAngleLeft}
+          onClick={() => skipHandler("skip-back")}
+          style={{ paddingRight: "20px" }}
+        />
+        <FontAwesomeIcon
           className="play"
           size="2x"
           icon={isPlaying ? faPause : faPlay}
           onClick={playPauseHandler}
+        />
+        <FontAwesomeIcon
+          className="skip-forward"
+          size="2x"
+          icon={faAngleRight}
+          onClick={() => skipHandler("skip-forward")}
+          style={{ paddingLeft: "20px" }}
         />
       </div>
       <div className={`img-container ${musicMax ? "img-hidden" : ""}`}>

@@ -86,7 +86,7 @@ const Board = ({
   };
 
   const songColor = {
-    backgroundColor: `${currSong.color}`,
+    background: `${currSong.color}`,
   };
 
   return (

@@ -2,11 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 //styles
 import "./styles/app.scss";
 //components
-import Player from "./components/Player";
+import Player from "./components/MusicPlayer/Player";
 import ToolbarPlayer from "./components/ToolbarPlayer";
-import Song from "./components/Song";
-import Library from "./components/Library";
-import LibraryButton from "./components/LibraryButton";
+import Song from "./components/MusicPlayer/Song";
+import Library from "./components/MusicPlayer/Library";
+import LibraryButton from "./components/MusicPlayer/LibraryButton";
 import ProfilePage from "./components/ProfilePage";
 //song list
 import musicList from "./util";
