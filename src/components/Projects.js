@@ -27,32 +27,22 @@ const Projects = ({ currSong }) => {
     description:
       "Boggle-like app (Java, Android Studio) that recursively solves the board, utilizing multithreading to improve user experience and reduce stuttering.",
     image: wordscramblepng,
-    github: true,
-    google: true,
+    github: "https://github.com/DevEmKen/WordScramble",
+    google:
+      "https://play.google.com/store/apps/details?id=com.em.wscramble&pli=1",
   };
   const card4 = {
     title: "Reddalyzer",
     description:
       "Chrome extension that lists any Reddit threads for the current URL, if they exist. Written in Javascript, HTML, and CSS, it uses JQuery to call the Reddit API and search for relevant threads. ",
     image: reddalyzer,
-    github: true,
-    google: true,
+    github: "https://github.com/DevEmKen/Reddalyzer",
+    google:
+      "https://chromewebstore.google.com/detail/reddalyzer/mkipifdfhcekkofifhbppmpkipohmaka?hl=en-US&pli=1",
   };
 
   return (
     <div className="projects">
-      <div className="cards">
-        <ProjectCardLocal
-          title={card1.title}
-          description={card1.description}
-          image={card1.image}
-        />
-        <ProjectCardLocal
-          title={card2.title}
-          description={card2.description}
-          image={card2.image}
-        />
-      </div>
       <div className="cards">
         <ProjectCardExt
           title={card3.title}
@@ -69,6 +59,19 @@ const Projects = ({ currSong }) => {
           github={card4.github}
         />
       </div>
+      <div className="cards">
+        <ProjectCardLocal
+          title={card1.title}
+          description={card1.description}
+          image={card1.image}
+        />
+        <ProjectCardLocal
+          title={card2.title}
+          description={card2.description}
+          image={card2.image}
+        />
+      </div>
+
       <FileTree />
       <ConnectFour currSong={currSong} />
     </div>

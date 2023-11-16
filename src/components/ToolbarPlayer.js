@@ -20,8 +20,11 @@ const ToolbarPlayer = ({
   songInfo,
   setSongInfo,
 }) => {
-  const toolbarColor = {
+  const musicColor = {
     background: `${currSong.color}`,
+  };
+  const siteColor = {
+    background: "#64b2e2",
   };
   const musicMaxHandler = () => {
     setMusicMax(!musicMax);
@@ -64,7 +67,7 @@ const ToolbarPlayer = ({
   return (
     <div
       className={`toolbar-player ${musicMax ? "" : "music-min"}`}
-      style={toolbarColor}
+      style={musicMax ? musicColor : siteColor}
     >
       <div className="min-max">
         <FontAwesomeIcon
