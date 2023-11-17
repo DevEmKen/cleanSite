@@ -33,7 +33,7 @@ const ProfilePage = ({ currSong, musicMax }) => {
     );
   };
   const songColor = {
-    background: `linear-gradient(to top, #3978ff7d, #eaf1ff)`,
+    background: `linear-gradient(to top, #3978ff2b, #ffffff)`,
   };
   return (
     <div

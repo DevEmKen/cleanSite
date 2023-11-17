@@ -18,22 +18,31 @@
   width: 23rem;
   border-radius: 10px;
   margin-top: 8vh;
+  &.local {
+    :hover {
+      cursor: pointer;
+    }
+  }
+
   h1 {
     grid-row: 1;
     text-align: center;
     padding: 2rem;
     font-size: x-large;
     font-weight: 600;
+    pointer-events: none;
   }
   h3 {
     margin: 1rem;
     font-size: medium;
     font-weight: 500;
     padding: 1.5rem;
+    pointer-events: none;
   }
   img {
     width: 7rem;
     grid-row: 2;
+    pointer-events: none;
   }
 }
 
@@ -63,7 +72,9 @@
 
 .cards {
   display: flex;
-  justify-content: space-evenly;
   flex-wrap: wrap;
-  width: 55%;
+  align-items: center;
+  justify-content: center;
+  width: 85%;
+  column-gap: 3rem;
 }

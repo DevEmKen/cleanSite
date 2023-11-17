@@ -55,11 +55,11 @@ const Entry = ({ filename, children, depth }) => {
   );
 };
 
-const FileTree = () => {
+const FileTree = ({ fileTreeHidden }) => {
   const [files, setFiles] = useState(exampleFiles);
 
   return (
-    <div className="file-tree">
+    <div className={`file-tree ${fileTreeHidden ? "tree-hidden" : ""}`}>
       {files.children.map((entry) => {
         return (
           <Entry

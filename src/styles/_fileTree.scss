@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 300px;
+  max-height: 40vh;
+  &.tree-hidden {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height;
+  }
 }
 
 .entry {

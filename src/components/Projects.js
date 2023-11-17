@@ -41,6 +41,18 @@ const Projects = ({ currSong }) => {
       "https://chromewebstore.google.com/detail/reddalyzer/mkipifdfhcekkofifhbppmpkipohmaka?hl=en-US&pli=1",
   };
 
+  const [connectFourHidden, setConnectFourHidden] = useState(true);
+  const [fileTreeHidden, setFileTreeHidden] = useState(true);
+
+  const connectFourHandler = () => {
+    console.log("connect four clicked");
+    setConnectFourHidden(!connectFourHidden);
+  };
+
+  const fileTreeHandler = () => {
+    setFileTreeHidden(!fileTreeHidden);
+  };
+
   return (
     <div className="projects">
       <div className="cards">
@@ -64,16 +76,18 @@ const Projects = ({ currSong }) => {
           title={card1.title}
           description={card1.description}
           image={card1.image}
+          onClickHandler={connectFourHandler}
         />
         <ProjectCardLocal
           title={card2.title}
           description={card2.description}
           image={card2.image}
+          onClickHandler={fileTreeHandler}
         />
       </div>
 
-      <FileTree />
-      <ConnectFour currSong={currSong} />
+      <ConnectFour currSong={currSong} connectFourHidden={connectFourHidden} />
+      <FileTree fileTreeHidden={fileTreeHidden} />
     </div>
   );
 };
