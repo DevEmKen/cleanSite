@@ -26,6 +26,7 @@ const ToolbarPlayer = ({
   const siteColor = {
     background: "#7ab6db",
   };
+
   const musicMaxHandler = () => {
     setMusicMax(!musicMax);
   };

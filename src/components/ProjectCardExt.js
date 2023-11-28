@@ -16,10 +16,18 @@ const ProjectCardExt = ({ title, description, image, google, github }) => {
       <img src={image}></img>
       <h3>{description}</h3>
       <div className="external-proj">
-        <div className="link-container">
-          <img src={githubpng} /> <h4 onClick={gitHandler}>Github</h4>
+        <div
+          className="link-container"
+          onClick={gitHandler}
+          onAuxClick={gitHandler}
+        >
+          <img src={githubpng} /> <h4>Github</h4>
         </div>
-        <div className="link-container" onClick={googleHandler}>
+        <div
+          className="link-container"
+          onClick={googleHandler}
+          onAuxClick={googleHandler}
+        >
           <img src={googleplaypng} /> <h4>Play Store</h4>
         </div>
       </div>

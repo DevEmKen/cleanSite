@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Board from "./Board";
 import GameStatus from "./GameStatus";
+import { configureStore } from "redux";
 
 const ConnectFour = ({ currSong, connectFourHidden }) => {
   const [playerTurn, setPlayerTurn] = useState(true); //red is true
