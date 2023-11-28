@@ -25,7 +25,7 @@ const Library = ({
             currSong={currSong}
             setCurrSong={setCurrSong}
             setIsPlaying={setIsPlaying}
-            key={uuidv4()}
+            key={song.id}
           />
         ))}
       </div>

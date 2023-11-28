@@ -13,6 +13,8 @@ import musicList from "./util";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+// Improve performance of onTimeUpdate function with lodash
+import { throttle } from "lodash";
 
 function App() {
   const [listOfSongs, setListOfSongs] = useState(musicList());
@@ -38,7 +40,7 @@ function App() {
       let nextIndex = (currentIndex + 1) % listOfSongs.length;
       setCurrSong(listOfSongs[nextIndex]);
     });
-  });
+  }, []);
 
   // Changing the song starts playback of the new song if playback is happening during the switch.
   // In other words, changing the song while paused doesn't un-pause
@@ -55,8 +57,9 @@ function App() {
     }
   }, [isPlaying, currSong]);
 
-  // Audio HTML element time update. Used by <input type="range"> in Player.js
-  const timeUpdateHandler = (e) => {
+  // Audio HTML element time update. Used by <input type="range"> in Player.js.
+  // Throttled by lodash to run only twice every second to improve performance.
+  const timeUpdateHandler = throttle((e) => {
     setSongInfo({
       ...songInfo,
       artist: currSong.artist,
@@ -65,7 +68,7 @@ function App() {
       duration: e.target.duration || 0,
       currentTime: e.target.currentTime || 0,
     });
-  };
+  }, 1000);
 
   // Display song length upon page load, or if skip forward/backward button is pressed while audio is paused
   const loadedMetadataHandler = (e) => {
