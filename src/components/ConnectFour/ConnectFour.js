@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import Board from "./Board";
 import GameStatus from "./GameStatus";
 import { configureStore } from "redux";
 
-const ConnectFour = ({ currSong, connectFourHidden }) => {
+const ConnectFour = ({ connectFourHidden }) => {
   const [playerTurn, setPlayerTurn] = useState(true); //red is true
   const [gameOver, setGameOver] = useState(false);
   const [whoWon, setWhoWon] = useState("Red");
@@ -36,10 +36,9 @@ const ConnectFour = ({ currSong, connectFourHidden }) => {
         playerTurn={playerTurn}
         setPlayerTurn={setPlayerTurn}
         setWhoWon={setWhoWon}
-        currSong={currSong}
       />
     </div>
   );
 };
 
-export default ConnectFour;
+export default React.memo(ConnectFour);

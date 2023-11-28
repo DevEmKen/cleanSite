@@ -1,3 +1,5 @@
+import React from "react";
+
 import redCir from "./red.svg";
 import blackCir from "./black.svg";
 import whiteCir from "./white.svg";

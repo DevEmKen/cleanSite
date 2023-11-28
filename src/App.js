@@ -26,7 +26,8 @@ function App() {
     duration: 0,
     currentTime: 0,
   });
-  const [isPlaying, setIsPlaying] = useState(false); // Could set to true for automatic playback upon source load
+  // Could initialize isPlaying to true for automatic playback upon page load
+  const [isPlaying, setIsPlaying] = useState(false);
   const [libraryActive, setLibraryActive] = useState(true);
   const [musicMax, setMusicMax] = useState(false);
   const audioRef = useRef(null);
@@ -58,7 +59,7 @@ function App() {
   }, [isPlaying, currSong]);
 
   // Audio HTML element time update. Used by <input type="range"> in Player.js.
-  // Throttled by lodash to run only twice every second to improve performance.
+  // Throttled by lodash to run only once every second to improve performance.
   const timeUpdateHandler = throttle((e) => {
     setSongInfo({
       ...songInfo,
@@ -70,21 +71,22 @@ function App() {
     });
   }, 1000);
 
-  // Display song length upon page load, or if skip forward/backward button is pressed while audio is paused
+  // Display song length upon page load, or if skip forward/backward button
+  // is pressed while audio is paused
   const loadedMetadataHandler = (e) => {
     setSongInfo({ ...songInfo, duration: e.target.duration });
   };
 
   return (
     <div className="App">
-      <audio
-        onTimeUpdate={timeUpdateHandler}
-        onLoadedMetadata={loadedMetadataHandler}
-        ref={audioRef}
-        src={currSong.songURL}
-      />
       <div className={`app-holder ${musicMax ? "" : "music-min"}`}>
         <div className={`music-page ${musicMax ? "" : "music-min"}`}>
+          <audio
+            onTimeUpdate={timeUpdateHandler}
+            onLoadedMetadata={loadedMetadataHandler}
+            ref={audioRef}
+            src={currSong.songURL}
+          />
           <LibraryButton
             libraryActive={libraryActive}
             setLibraryActive={setLibraryActive}

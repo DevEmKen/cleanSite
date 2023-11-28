@@ -86,7 +86,7 @@ const Projects = ({ currSong }) => {
         />
       </div>
 
-      <ConnectFour currSong={currSong} connectFourHidden={connectFourHidden} />
+      <ConnectFour connectFourHidden={connectFourHidden} />
       <FileTree fileTreeHidden={fileTreeHidden} />
     </div>
   );
