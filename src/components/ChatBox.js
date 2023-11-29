@@ -25,7 +25,7 @@ const ChatBox = () => {
   const [messages, setMessages] = useState([
     {
       message:
-        "Hello, I'm chatGPT4 Assistant! Ask me anything about this website, it's source code, or functionality! Please be patient - I'm a hard thinker.",
+        "Hello, I'm chatGPT3.5 Assistant! Ask me anything about this website, it's source code, or functionality! Please be patient - I'm a hard thinker. Disclaimer - my answers may not be accurate.",
       sender: "ChatGPT",
       direction: "incoming",
     },

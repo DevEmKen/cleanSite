@@ -24,7 +24,7 @@ const ToolbarPlayer = ({
     background: `${currSong.color}`,
   };
   const siteColor = {
-    background: "#7ab6db",
+    background: "#C6E3FA",
   };
 
   const musicMaxHandler = () => {
