@@ -10,6 +10,9 @@
   left: 0;
   box-shadow: 2px 2px 30px rgb(182, 182, 182);
   transition: all 0.5s ease;
+  svg {
+    cursor: pointer;
+  }
   &.music-min {
     transform: translateY(-95vh);
   }

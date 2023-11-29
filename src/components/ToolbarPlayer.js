@@ -55,7 +55,8 @@ const ToolbarPlayer = ({
     let ind = listOfSongs.findIndex((song) => song.id === currSong.id);
     if (icon === "skip-back") {
       // Set currSong to previous song. Modulus handles edge case.
-      // Must add listOfSongs.length to the index before the modulus, as Javascript modulus can have negative remainders
+      // Must add listOfSongs.length to the index before the modulus,
+      // as Javascript modulus can have negative remainders
       setCurrSong(
         listOfSongs[(ind - 1 + listOfSongs.length) % listOfSongs.length]
       );
@@ -74,6 +75,7 @@ const ToolbarPlayer = ({
         <FontAwesomeIcon
           icon={!musicMax ? faAngleDown : faAngleUp}
           onClick={musicMaxHandler}
+          style={{ paddingLeft: "5px", paddingRight: "5px" }}
           size="2x"
         />
       </div>
@@ -83,14 +85,18 @@ const ToolbarPlayer = ({
           size="2x"
           icon={faAngleLeft}
           onClick={() => skipHandler("skip-back")}
-          style={{ paddingRight: "40px" }}
+          style={{
+            paddingRight: "5px",
+            paddingLeft: "5px",
+            marginRight: "30px",
+          }}
         />
 
         <FontAwesomeIcon
           className="play"
           size="2x"
           icon={isPlaying ? faPause : faPlay}
-          style={{ width: "30px" }} //faPause and faPlay are a different width, so even them out
+          style={{ width: "30px", paddingLeft: "10px", paddingRight: "10px" }} //faPause and faPlay are a different width, so this evens them out
           onClick={playPauseHandler}
         />
 
@@ -99,7 +105,11 @@ const ToolbarPlayer = ({
           size="2x"
           icon={faAngleRight}
           onClick={() => skipHandler("skip-forward")}
-          style={{ paddingLeft: "40px" }}
+          style={{
+            paddingLeft: "5px",
+            paddingRight: "5px",
+            marginLeft: "30px",
+          }}
         />
       </div>
       <div className={`img-container ${musicMax ? "img-hidden" : ""}`}>
