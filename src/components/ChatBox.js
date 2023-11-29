@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 // Import OpenAI API
 import OpenAI from "openai";
@@ -19,18 +19,15 @@ import {
 const API_KEY = process.env.REACT_APP_API_URL;
 
 const ChatBox = () => {
+  const chatBoxRef = useRef(null);
   const [userHasEngaged, setUserHasEngaged] = useState(false);
   const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([
     {
-      message: "Hello1",
+      message:
+        "Hello, I'm chatGPT! Ask me anything about this website, it's source code, or functionality! Please be patient - I'm a hard thinker.",
       sender: "ChatGPT",
       direction: "incoming",
-    },
-    {
-      message: "helloBack",
-      sender: "User",
-      direction: "outgoing",
     },
   ]);
   const openai = new OpenAI({
@@ -42,13 +39,9 @@ const ChatBox = () => {
     try {
       setTyping(true);
 
-      const response = await openai.beta.assistants.create({
-        name: "Math Tutor",
-        instructions:
-          "You are a personal math tutor. Write and run code to answer math questions.",
-        tools: [{ type: "code_interpreter" }],
-        model: "gpt-4-1106-preview",
-      });
+      const response = await openai.beta.assistants.retrieve(
+        "asst_Rinos6bXk2uBsHVUpdHzXaIk"
+      );
 
       const thread = await openai.beta.threads.create();
       const userMessageResponse = await openai.beta.threads.messages.create(
@@ -93,17 +86,24 @@ const ChatBox = () => {
   };
 
   const handleMessageSend = async (userMessage) => {
-    const assistantMessage = await sendMessageToOpenAI(userMessage);
-
+    // Add the user's message to the message list immediately
     setMessages((prevMessages) => [
       ...prevMessages,
+      { message: userMessage, sender: "User", direction: "outgoing" },
+    ]);
+    // Send user's message to OpenAI API
+    const assistantMessage = await sendMessageToOpenAI(userMessage);
+
+    // Update message list with chatGPT's reply
+    setMessages((prevMessages) => [
+      ...prevMessages.slice(0, -1), // Prevent adding user's message to list again
       { message: userMessage, sender: "User", direction: "outgoing" },
       { message: assistantMessage, sender: "ChatGPT", direction: "incoming" },
     ]);
   };
 
   return (
-    <div className="chat-box">
+    <div className="chat-box" ref={chatBoxRef}>
       <MainContainer>
         <ChatContainer>
           <MessageList
@@ -116,7 +116,7 @@ const ChatBox = () => {
             ))}
           </MessageList>
           <MessageInput
-            placeholder="Say hello to chatGPT"
+            placeholder="How does the music player work?"
             onSend={handleMessageSend}
           />
         </ChatContainer>

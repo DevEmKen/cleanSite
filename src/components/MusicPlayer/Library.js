@@ -1,5 +1,4 @@
 import React from "react";
-import LibrarySong from "./LibrarySong";
 import { v4 as uuidv4 } from "uuid";
 
 const Library = ({
@@ -28,6 +27,26 @@ const Library = ({
             key={song.id}
           />
         ))}
+      </div>
+    </div>
+  );
+};
+
+const LibrarySong = ({ song, currSong, setCurrSong, setIsPlaying }) => {
+  const librarySongSelectHandler = () => {
+    setIsPlaying(true);
+    setCurrSong(song);
+  };
+
+  return (
+    <div
+      className={`library-song ${song === currSong ? "active-song" : ""}`}
+      onClick={librarySongSelectHandler}
+    >
+      <img src={song.coverURL} alt="No img"></img>
+      <div className="library-song-info">
+        <h1>{song.name}</h1>
+        <h2>{song.artist}</h2>
       </div>
     </div>
   );
