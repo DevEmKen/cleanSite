@@ -10,7 +10,6 @@ const Board = ({
   playerTurn,
   setPlayerTurn,
   setWhoWon,
-  currSong,
 }) => {
   const handleMove = (ind) => {
     if (!gameOver) {

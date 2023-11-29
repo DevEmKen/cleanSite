@@ -17,6 +17,7 @@ const Player = ({
   songInfo,
   setSongInfo,
 }) => {
+  // Format raw number of seconds into a MM:SS format
   const formatTime = (duration) => {
     let ret = "";
     ret += Math.floor(duration / 60) + ":";
@@ -27,6 +28,7 @@ const Player = ({
     return ret;
   };
 
+  // Handles play/pause
   const playPauseHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();

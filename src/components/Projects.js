@@ -1,9 +1,13 @@
 import { useState } from "react";
 
+// Child components
 import ConnectFour from "./ConnectFour/ConnectFour";
 import FileTree from "./FileTree";
 import ProjectCardLocal from "./ProjectCardLocal";
 import ProjectCardExt from "./ProjectCardExt";
+import ChatBox from "./ChatBox";
+
+// Assets
 import connectpng from "../assets/connectpng.png";
 import folderpng from "../assets/folderspng.png";
 import wordscramblepng from "../assets/wordscramblepng.png";
@@ -85,6 +89,7 @@ const Projects = ({ currSong }) => {
           onClickHandler={fileTreeHandler}
         />
       </div>
+      <ChatBox />
 
       <ConnectFour connectFourHidden={connectFourHidden} />
       <FileTree fileTreeHidden={fileTreeHidden} />

@@ -88,7 +88,7 @@ const ToolbarPlayer = ({
           style={{
             paddingRight: "5px",
             paddingLeft: "5px",
-            marginRight: "30px",
+            marginRight: "20px",
           }}
         />
 
@@ -108,7 +108,7 @@ const ToolbarPlayer = ({
           style={{
             paddingLeft: "5px",
             paddingRight: "5px",
-            marginLeft: "30px",
+            marginLeft: "20px",
           }}
         />
       </div>
