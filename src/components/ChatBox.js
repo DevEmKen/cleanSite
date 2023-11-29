@@ -16,7 +16,7 @@ import {
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 
-const API_KEY = "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";
+const API_KEY = process.env.REACT_APP_API_URL;
 
 const ChatBox = () => {
   const [userHasEngaged, setUserHasEngaged] = useState(false);
