@@ -76,11 +76,16 @@ ul {
 
 .side-bar {
   position: fixed;
-  left: 2vw;
-  top: 28vh;
+  left: 4vw;
+  top: 10vh;
   color: black;
   z-index: 100;
   transition: all 0.5s ease;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  padding-top: 15px;
+  padding-bottom: 5px;
 
   &.side-min {
     transform: translateY(95vh);
@@ -94,7 +99,7 @@ ul {
   cursor: pointer;
   position: fixed;
   top: 50%;
-  right: calc(25vw + 7px);
+  right: calc(25vw + 6px);
   transform: scaleY(2);
   font-weight: bold;
   height: 20px;
@@ -112,6 +117,7 @@ ul {
   background: white;
   border: 1px solid #cacbcd;
   border-left: 2px solid #cacbcd;
+  border-right: 2px solid #cacbcd;
   color: #cacbcd;
   &.chat-min {
     transform: scaleY(2) translateX(25vw);

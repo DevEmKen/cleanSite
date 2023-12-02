@@ -2,9 +2,7 @@ import React, { useState, useRef } from "react";
 
 // Import OpenAI API
 import OpenAI from "openai";
-// The front-end chat box is the only component in the website
-// that isn't custom-made.
-// It uses chatscope's chat UI to display the chatGPT Assistant API.
+// Uses chatscope's chat UI to display the chatGPT Assistant API.
 // This JS file contains both the front and back end for the assistant.
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {

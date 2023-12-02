@@ -37,25 +37,24 @@
 
 .intro-header {
   position: absolute;
-  left: 2vw;
-
+  left: 10vw;
+  top: 4vh;
+  transition: all 0.5s ease;
   h1 {
     font-size: 70px;
   }
   h2 {
-    align-self: flex-end;
-    font-size: 30px;
+    font-size: 25px;
     padding-bottom: 15px;
     padding-left: 3px;
   }
   img {
-    align-self: flex-end;
     margin-bottom: 9px;
     margin-left: 9px;
     border: 1px solid #2e2e2e;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
   }
 }
 

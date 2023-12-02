@@ -79,15 +79,14 @@ const Projects = ({ chatMax, musicMax }) => {
   return (
     <div className="bottom-app">
       <div className="sidebar-spacer" />
-      <div className="projects">
-        <div className="intro-header">
-          <h1>Hello there!</h1>
-          <div style={{ display: "flex" }}>
-            <h2>I'm Emerson.</h2>
-            <img src={profpic} />
-          </div>
+      <div className={`intro-header`}>
+        <h1>Hello there!</h1>
+        <div style={{ display: "flex" }}>
+          <h2>I'm Emerson.</h2>
+          <img src={profpic} />
         </div>
-
+      </div>
+      <div className="projects">
         <div style={{ height: "11vh" }} />
         <div className="cards">
           <ProjectCardExt
