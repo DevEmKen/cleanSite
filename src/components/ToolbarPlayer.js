@@ -75,11 +75,16 @@ const ToolbarPlayer = ({
         <FontAwesomeIcon
           icon={!musicMax ? faAngleDown : faAngleUp}
           onClick={musicMaxHandler}
-          style={{ paddingLeft: "5px", paddingRight: "5px" }}
+          style={{ paddingLeft: "13px", paddingRight: "5px" }}
           size="2x"
         />
       </div>
-      <div className={`play-pause ${musicMax ? "play-pause-hidden" : ""}`}>
+      <div
+        className={`play-pause ${musicMax ? "play-pause-hidden" : ""}`}
+        style={{
+          paddingLeft: "13px",
+        }}
+      >
         <FontAwesomeIcon
           className="skip-back"
           size="2x"
@@ -87,7 +92,7 @@ const ToolbarPlayer = ({
           onClick={() => skipHandler("skip-back")}
           style={{
             paddingRight: "5px",
-            paddingLeft: "5px",
+            paddingLeft: "13px",
             marginRight: "40px",
             height: "27px",
             paddingBottom: "2px",

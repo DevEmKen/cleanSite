@@ -36,21 +36,37 @@
 }
 
 .intro-header {
-  position: absolute;
-  left: 10vw;
-  top: 4vh;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  margin-right: 0vw;
+  margin-top: 3vh;
   transition: all 0.5s ease;
+  text-align: center;
+  width: 80%;
+  height: 12vh;
   h1 {
-    font-size: 70px;
+    margin-top: 0px;
+    margin-left: 16vw;
+    font-size: 44px;
   }
   h2 {
-    font-size: 25px;
-    padding-bottom: 15px;
-    padding-left: 3px;
+    font-size: medium;
+    font-weight: normal;
+
+    margin-left: 18.5vw;
   }
   img {
-    margin-bottom: 9px;
-    margin-left: 9px;
+    transition: all 0.5s ease;
+    &.img-min {
+      transform: translateY(85vh);
+    }
+    &.img-left {
+      left: 40.8vw;
+    }
+    position: absolute;
+    left: 49.5vw;
+    top: 15.5vh;
     border: 1px solid #2e2e2e;
     border-radius: 50%;
     width: 40px;
@@ -80,7 +96,8 @@
   height: 50vh;
   width: 23rem;
   border-radius: 10px;
-  margin-top: 10vh;
+  margin-top: 7vh;
+  margin-bottom: 0vh;
   &:hover {
     background-color: rgba(177, 177, 177, 0.07);
   }
@@ -105,7 +122,7 @@
   h3 {
     margin: 1rem;
     font-size: medium;
-    font-weight: 500;
+    font-weight: normal;
     padding: 1.5rem;
     pointer-events: none;
   }

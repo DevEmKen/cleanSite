@@ -102,6 +102,10 @@ const ChatBox = ({ musicMax, chatMax }) => {
     ]);
   };
 
+  const chatStyle = {
+    background: `linear-gradient(to top, #3978ff21, #ffffff)`,
+  };
+
   return (
     <div
       className={`chat-box ${musicMax ? "chat-off-bottom" : ""} ${
@@ -109,12 +113,13 @@ const ChatBox = ({ musicMax, chatMax }) => {
       }`}
       ref={chatBoxRef}
     >
-      <MainContainer>
+      <MainContainer style={chatStyle}>
         <ChatContainer>
           <MessageList
             typingIndicator={
               typing ? <TypingIndicator content="ChatGPT is typing" /> : null
             }
+            style={chatStyle}
           >
             {messages.map((message, i) => (
               <Message key={i} model={message} />

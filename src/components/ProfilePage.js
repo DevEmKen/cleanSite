@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faMitten } from "@fortawesome/free-solid-svg-icons";
 import githubpng from "../assets/githubpng.png";
 import googleplaypng from "../assets/googleplaypng.png";
 // Child components
@@ -79,15 +79,27 @@ const Projects = ({ chatMax, musicMax }) => {
   return (
     <div className="bottom-app">
       <div className="sidebar-spacer" />
-      <div className={`intro-header`}>
-        <h1>Hello there!</h1>
-        <div style={{ display: "flex" }}>
-          <h2>I'm Emerson.</h2>
-          <img src={profpic} />
-        </div>
-      </div>
+
       <div className="projects">
-        <div style={{ height: "11vh" }} />
+        <div className={`intro-header`}>
+          <div style={{ display: "flex", width: "100%" }}>
+            <h1>Hello there!</h1>
+            <FontAwesomeIcon
+              icon={faMitten}
+              size={"2x"}
+              style={{ marginLeft: "5px", marginTop: "5px" }}
+            />
+          </div>
+          <div style={{ display: "flex", width: "100%" }}>
+            <h2>Welcome to my website.</h2>
+            <img
+              src={profpic}
+              className={`${chatMax ? "img-left" : ""} ${
+                musicMax ? "img-min" : ""
+              }`}
+            />
+          </div>
+        </div>
         <div className="cards">
           <ProjectCardExt
             title={card3.title}
