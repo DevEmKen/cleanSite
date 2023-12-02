@@ -7,7 +7,6 @@ import googleplaypng from "../assets/googleplaypng.png";
 // Child components
 import ConnectFour from "./ConnectFour/ConnectFour";
 import FileTree from "./FileTree";
-import ChatBox from "./ChatBox";
 
 // Assets
 import connectpng from "../assets/connectpng.png";
@@ -15,25 +14,27 @@ import folderpng from "../assets/folderspng.png";
 import wordscramblepng from "../assets/wordscramblepng.png";
 import reddalyzer from "../assets/reddalyzer.png";
 
-const ProfilePage = ({ currSong, musicMax }) => {
+const ProfilePage = ({ currSong, musicMax, chatMax }) => {
   const songColor = {
     background: `linear-gradient(to top, #3978ff2b, #ffffff)`,
   };
   return (
     <div
-      className={`prof-page ${musicMax ? "" : "music-min"}`}
+      className={`prof-page ${musicMax ? "" : "music-min"} ${
+        chatMax ? "" : "chat-min"
+      }`}
       style={songColor}
     >
-      <Projects currSong={currSong} />
+      <Projects chatMax={chatMax} />
     </div>
   );
 };
 
-const Projects = ({ currSong }) => {
+const Projects = ({ chatMax }) => {
   const card1 = {
     title: "Connect Four",
     description:
-      "An implementation of the game Connect Four. Computer opponent coming soon!",
+      "An implementation of the game Connect Four, written in React.js. Computer opponent coming soon!",
     image: connectpng,
   };
   const card2 = {
@@ -74,41 +75,44 @@ const Projects = ({ currSong }) => {
   };
 
   return (
-    <div className="projects">
-      <div className="cards">
-        <ProjectCardExt
-          title={card3.title}
-          description={card3.description}
-          image={card3.image}
-          google={card3.google}
-          github={card3.github}
-        />
-        <ProjectCardExt
-          title={card4.title}
-          description={card4.description}
-          image={card4.image}
-          google={card4.google}
-          github={card4.github}
-        />
-      </div>
-      <div className="cards">
-        <ProjectCardLocal
-          title={card1.title}
-          description={card1.description}
-          image={card1.image}
-          onClickHandler={connectFourHandler}
-        />
-        <ProjectCardLocal
-          title={card2.title}
-          description={card2.description}
-          image={card2.image}
-          onClickHandler={fileTreeHandler}
-        />
-      </div>
-      <ChatBox />
+    <div className="bottom-app">
+      <div className="sidebar-spacer" />
+      <div className="projects">
+        <div className="cards">
+          <ProjectCardExt
+            title={card3.title}
+            description={card3.description}
+            image={card3.image}
+            google={card3.google}
+            github={card3.github}
+          />
+          <ProjectCardExt
+            title={card4.title}
+            description={card4.description}
+            image={card4.image}
+            google={card4.google}
+            github={card4.github}
+          />
+        </div>
+        <div className="cards">
+          <ProjectCardLocal
+            title={card1.title}
+            description={card1.description}
+            image={card1.image}
+            onClickHandler={connectFourHandler}
+          />
 
-      <ConnectFour connectFourHidden={connectFourHidden} />
-      <FileTree fileTreeHidden={fileTreeHidden} />
+          <ProjectCardLocal
+            title={card2.title}
+            description={card2.description}
+            image={card2.image}
+            onClickHandler={fileTreeHandler}
+          />
+        </div>
+        <ConnectFour connectFourHidden={connectFourHidden} />
+        <FileTree fileTreeHidden={fileTreeHidden} />
+      </div>
+      <div className={`chat-spacer ${chatMax ? "spacer-min" : ""}`} />
     </div>
   );
 };

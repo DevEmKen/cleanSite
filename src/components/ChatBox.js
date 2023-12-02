@@ -2,10 +2,10 @@ import React, { useState, useRef } from "react";
 
 // Import OpenAI API
 import OpenAI from "openai";
-// The front-end chat box is the only component that isn't custom-made.
-// It uses chatscope's chat UI as the frontend for the chatGPT
-// Assistant API. The back-end, i.e. most of the code in this
-// document is custom-made.
+// The front-end chat box is the only component in the website
+// that isn't custom-made.
+// It uses chatscope's chat UI to display the chatGPT Assistant API.
+// This JS file contains both the front and back end for the assistant.
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -18,10 +18,10 @@ import {
 
 const API_KEY = process.env.REACT_APP_API_URL;
 
-const ChatBox = () => {
+const ChatBox = ({ musicMax, chatMax }) => {
   const chatBoxRef = useRef(null);
   const [userHasEngaged, setUserHasEngaged] = useState(false);
-  const [typing, setTyping] = useState(false);
+  const [typing, setTyping] = useState(false); // True during chatGPT's think time
   const [messages, setMessages] = useState([
     {
       message:
@@ -39,11 +39,14 @@ const ChatBox = () => {
     try {
       setTyping(true);
 
-      const response = await openai.beta.assistants.retrieve(
+      // Retrieve the Assistant with the source files
+      // that I uploaded on openAI playground
+      const retrievedAssistant = await openai.beta.assistants.retrieve(
         "asst_Rinos6bXk2uBsHVUpdHzXaIk"
       );
-
+      // Create a thread
       const thread = await openai.beta.threads.create();
+      // Send the user's message by creating a message in the thread
       const userMessageResponse = await openai.beta.threads.messages.create(
         thread.id,
         {
@@ -51,30 +54,30 @@ const ChatBox = () => {
           content: userMessage,
         }
       );
-
+      // Finally, run the conversation to activate chatGPT
       const run = await openai.beta.threads.runs.create(thread.id, {
-        assistant_id: response.id,
+        assistant_id: retrievedAssistant.id,
       });
-
+      // Get the status of chatGPT's reply into runStatus
       let runStatus = await openai.beta.threads.runs.retrieve(
         thread.id,
         run.id
       );
-
+      // Check for runStatus to become "completed" once every second
       while (runStatus.status !== "completed") {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         runStatus = await openai.beta.threads.runs.retrieve(thread.id, run.id);
       }
-
-      const assistantMessages = await openai.beta.threads.messages.list(
-        thread.id
-      );
-      const lastAssistantMessage = assistantMessages.data
+      // Assistants API can only send the entire conversation,
+      // not just one message at a time
+      const totalMessages = await openai.beta.threads.messages.list(thread.id);
+      const lastAssistantMessage = totalMessages.data
         .filter((message) => message.role === "assistant")
-        .pop();
+        .pop(); // Pop the last message to get only the assistant's reply
 
       setTyping(false);
       return (
+        // Optional chaining (? operator) prevents ugly chain of booleans and &&s
         lastAssistantMessage?.content[0]?.text.value ||
         "Sorry, I couldn't understand your question."
       );
@@ -96,14 +99,18 @@ const ChatBox = () => {
 
     // Update message list with chatGPT's reply
     setMessages((prevMessages) => [
-      ...prevMessages.slice(0, -1), // Prevent adding user's message to list again
-      { message: userMessage, sender: "User", direction: "outgoing" },
+      ...prevMessages,
       { message: assistantMessage, sender: "ChatGPT", direction: "incoming" },
     ]);
   };
 
   return (
-    <div className="chat-box" ref={chatBoxRef}>
+    <div
+      className={`chat-box ${musicMax ? "chat-off-bottom" : ""} ${
+        chatMax ? "" : "chat-off-side"
+      }`}
+      ref={chatBoxRef}
+    >
       <MainContainer>
         <ChatContainer>
           <MessageList

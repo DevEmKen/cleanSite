@@ -4,20 +4,47 @@
   flex-direction: column;
   max-height: 100vh;
   height: 100vh;
+  width: 75vw;
   transition: all 0.5s ease;
   &.music-min {
     transform: translateY(-95vh);
   }
+  &.chat-min {
+    width: 100vw;
+  }
+}
+
+.bottom-app {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar-spacer {
+  width: 12vw;
+  height: 100px;
 }
 
 .projects {
-  margin-top: 4vh;
+  margin-top: 2vh;
+  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 60vw;
   color: rgb(46, 46, 46);
 }
+
+.chat-spacer {
+  width: 10vw;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  transition: all 0.5s ease;
+  &.spacer-min {
+    width: 5vw;
+  }
+}
+
 .project-card {
   display: grid;
   place-items: center;
@@ -90,8 +117,8 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 85%;
-  column-gap: 3rem;
+  width: 60vw;
+  column-gap: 6rem;
 }
 
 .file-tree {
@@ -100,8 +127,11 @@
   margin-bottom: 100px;
   max-height: 40vh;
   &.tree-hidden {
+    margin: 0;
+    padding: 0;
     max-height: 0;
+    max-width: 0;
     overflow: hidden;
-    transition: max-height;
+    transition: max-height 0.3s ease;
   }
 }

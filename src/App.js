@@ -8,6 +8,7 @@ import Song from "./components/MusicPlayer/Song";
 import Library from "./components/MusicPlayer/Library";
 import LibraryButton from "./components/MusicPlayer/LibraryButton";
 import ProfilePage from "./components/ProfilePage";
+import ChatBox from "./components/ChatBox";
 //song list
 import musicList from "./util";
 // FontAwesome
@@ -30,6 +31,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [libraryActive, setLibraryActive] = useState(true);
   const [musicMax, setMusicMax] = useState(false);
+  const [chatMax, setChatMax] = useState(true);
   const audioRef = useRef(null);
 
   // Play the next song when the current one ends
@@ -126,10 +128,37 @@ function App() {
           songInfo={songInfo}
           setSongInfo={setSongInfo}
         />
-        <ProfilePage currSong={currSong} musicMax={musicMax} />
+        <ChatBox musicMax={musicMax} chatMax={chatMax} />
+        <ChatBoxMaxButton
+          musicMax={musicMax}
+          chatMax={chatMax}
+          setChatMax={setChatMax}
+        />
+        <ProfilePage
+          currSong={currSong}
+          musicMax={musicMax}
+          chatMax={chatMax}
+        />
       </div>
     </div>
   );
 }
+
+const ChatBoxMaxButton = ({ chatMax, setChatMax, musicMax }) => {
+  const chatMinHandler = () => {
+    setChatMax(!chatMax);
+  };
+
+  return (
+    <div
+      onClick={chatMinHandler}
+      className={`chatbox-max-button ${chatMax ? "" : "chat-min"} ${
+        musicMax ? "music-max" : ""
+      }`}
+    >
+      {chatMax ? ">" : "<"}
+    </div>
+  );
+};
 
 export default App;

@@ -113,7 +113,11 @@ const ToolbarPlayer = ({
         />
       </div>
       <div className={`img-container ${musicMax ? "img-hidden" : ""}`}>
-        <img src={currSong.coverURL} alt="album art"></img>
+        <img
+          src={currSong.coverURL}
+          alt="album art"
+          onClick={musicMaxHandler}
+        ></img>
       </div>
     </div>
   );

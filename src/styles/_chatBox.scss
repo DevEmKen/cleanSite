@@ -1,5 +1,17 @@
 .chat-box {
-  position: relative;
-  height: 600px;
-  width: 800px;
+  position: fixed;
+  border: none;
+  top: 5vh;
+  right: 0;
+  height: 95vh;
+  width: 25vw;
+  z-index: 1000;
+  transition: all 0.5s ease;
+  overflow-y: auto;
+  &.chat-off-bottom {
+    transform: translateY(95vh);
+  }
+  &.chat-off-side {
+    transform: translateX(25vw);
+  }
 }
