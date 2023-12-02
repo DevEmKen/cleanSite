@@ -4,8 +4,8 @@ import {
   faAngleUp,
   faPlay,
   faPause,
-  faAngleLeft,
-  faAngleRight,
+  faForward,
+  faBackward,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ToolbarPlayer = ({
@@ -83,12 +83,14 @@ const ToolbarPlayer = ({
         <FontAwesomeIcon
           className="skip-back"
           size="2x"
-          icon={faAngleLeft}
+          icon={faBackward}
           onClick={() => skipHandler("skip-back")}
           style={{
             paddingRight: "5px",
             paddingLeft: "5px",
-            marginRight: "20px",
+            marginRight: "40px",
+            height: "27px",
+            paddingBottom: "2px",
           }}
         />
 
@@ -103,12 +105,14 @@ const ToolbarPlayer = ({
         <FontAwesomeIcon
           className="skip-forward"
           size="2x"
-          icon={faAngleRight}
+          icon={faForward}
           onClick={() => skipHandler("skip-forward")}
           style={{
             paddingLeft: "5px",
             paddingRight: "5px",
-            marginLeft: "20px",
+            marginLeft: "40px",
+            height: "27px",
+            paddingBottom: "2px",
           }}
         />
       </div>

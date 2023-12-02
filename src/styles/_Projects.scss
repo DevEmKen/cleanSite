@@ -3,8 +3,9 @@
   display: flex;
   flex-direction: column;
   max-height: 100vh;
-  height: 100vh;
+  height: 95vh;
   width: 75vw;
+  padding-bottom: 50px;
   transition: all 0.5s ease;
   &.music-min {
     transform: translateY(-95vh);
@@ -41,7 +42,7 @@
   height: 100vh;
   transition: all 0.5s ease;
   &.spacer-min {
-    width: 5vw;
+    width: 3vw;
   }
 }
 
@@ -57,10 +58,13 @@
   width: 23rem;
   border-radius: 10px;
   margin-top: 8vh;
+  &:hover {
+    background-color: rgba(177, 177, 177, 0.1);
+  }
   &.local {
-    :hover {
-      cursor: pointer;
-    }
+    cursor: pointer;
+  }
+  &.ext {
   }
 
   h1 {
@@ -85,7 +89,7 @@
   }
 }
 
-.external-proj {
+.proj-links {
   grid-row: 5;
   display: flex;
   align-items: center;

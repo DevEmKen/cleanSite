@@ -127,11 +127,11 @@ const ProjectCardExt = ({ title, description, image, google, github }) => {
   };
 
   return (
-    <div className="project-card">
+    <div className="project-card ext">
       <h1>{title}</h1>
       <img src={image}></img>
       <h3>{description}</h3>
-      <div className="external-proj">
+      <div className="proj-links">
         <div
           className="link-container"
           onClick={gitHandler}
