@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,7 @@ import connectpng from "../assets/connectpng.png";
 import folderpng from "../assets/folderspng.png";
 import wordscramblepng from "../assets/wordscramblepng.png";
 import reddalyzer from "../assets/reddalyzer.png";
+import profpic from "../assets/profpic.jpg";
 
 const ProfilePage = ({ currSong, musicMax, chatMax }) => {
   const songColor = {
@@ -25,12 +26,12 @@ const ProfilePage = ({ currSong, musicMax, chatMax }) => {
       }`}
       style={songColor}
     >
-      <Projects chatMax={chatMax} />
+      <Projects chatMax={chatMax} musicMax={musicMax} />
     </div>
   );
 };
 
-const Projects = ({ chatMax }) => {
+const Projects = ({ chatMax, musicMax }) => {
   const card1 = {
     title: "Connect Four",
     description:
@@ -79,6 +80,15 @@ const Projects = ({ chatMax }) => {
     <div className="bottom-app">
       <div className="sidebar-spacer" />
       <div className="projects">
+        <div className="intro-header">
+          <h1>Hello there!</h1>
+          <div style={{ display: "flex" }}>
+            <h2>I'm Emerson.</h2>
+            <img src={profpic} />
+          </div>
+        </div>
+
+        <div style={{ height: "11vh" }} />
         <div className="cards">
           <ProjectCardExt
             title={card3.title}

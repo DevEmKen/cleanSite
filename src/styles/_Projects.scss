@@ -35,8 +35,32 @@
   color: rgb(46, 46, 46);
 }
 
+.intro-header {
+  position: absolute;
+  left: 2vw;
+
+  h1 {
+    font-size: 70px;
+  }
+  h2 {
+    align-self: flex-end;
+    font-size: 30px;
+    padding-bottom: 15px;
+    padding-left: 3px;
+  }
+  img {
+    align-self: flex-end;
+    margin-bottom: 9px;
+    margin-left: 9px;
+    border: 1px solid #2e2e2e;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+  }
+}
+
 .chat-spacer {
-  width: 10vw;
+  width: 11vw;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -57,9 +81,9 @@
   height: 50vh;
   width: 23rem;
   border-radius: 10px;
-  margin-top: 8vh;
+  margin-top: 10vh;
   &:hover {
-    background-color: rgba(177, 177, 177, 0.1);
+    background-color: rgba(177, 177, 177, 0.07);
   }
   &.local {
     cursor: pointer;

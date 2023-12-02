@@ -128,12 +128,14 @@ function App() {
           songInfo={songInfo}
           setSongInfo={setSongInfo}
         />
+
         <ChatBox musicMax={musicMax} chatMax={chatMax} />
         <ChatBoxMaxButton
           musicMax={musicMax}
           chatMax={chatMax}
           setChatMax={setChatMax}
         />
+        <Sidebar musicMax={musicMax} />
         <ProfilePage
           currSong={currSong}
           musicMax={musicMax}
@@ -143,6 +145,21 @@ function App() {
     </div>
   );
 }
+
+const Sidebar = ({ musicMax }) => {
+  // This state and it's useEffect allow the sidebar
+  // to start in middle of the screen then stick to the
+  // top as the user scrolls down
+  const [isFixed, setIsFixed] = useState(false);
+
+  return (
+    <ul id="Sidebar" className={`side-bar ${musicMax ? "side-min" : ""}`}>
+      <li>About me</li>
+      <li>Resume</li>
+      <li>Github</li>
+    </ul>
+  );
+};
 
 const ChatBoxMaxButton = ({ chatMax, setChatMax, musicMax }) => {
   const chatMinHandler = () => {

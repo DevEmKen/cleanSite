@@ -8,6 +8,7 @@
 }
 
 *::-webkit-scrollbar {
+  z-index: 4;
   width: 8px;
 }
 *::-webkit-scrollbar-track {
@@ -69,8 +70,24 @@ body {
   }
 }
 
-::-webkit-scrollbar {
-  z-index: 4; /* Set a higher z-index for the scrollbar */
+ul {
+  list-style-type: none;
+}
+
+.side-bar {
+  position: fixed;
+  left: 2vw;
+  top: 28vh;
+  color: black;
+  z-index: 100;
+  transition: all 0.5s ease;
+
+  &.side-min {
+    transform: translateY(95vh);
+  }
+  li {
+    margin-bottom: 10px;
+  }
 }
 
 .chatbox-max-button {

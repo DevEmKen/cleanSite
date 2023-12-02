@@ -112,12 +112,7 @@ const ChatBox = ({ musicMax, chatMax }) => {
       ref={chatBoxRef}
     >
       <MainContainer>
-        <ChatContainer
-          styles={{
-            background: "linear-gradient(to top, #3978ff2b, #ffffff)",
-            // Add other styles as needed
-          }}
-        >
+        <ChatContainer>
           <MessageList
             typingIndicator={
               typing ? <TypingIndicator content="ChatGPT is typing" /> : null
@@ -128,7 +123,7 @@ const ChatBox = ({ musicMax, chatMax }) => {
             ))}
           </MessageList>
           <MessageInput
-            placeholder="How does the music player work?"
+            placeholder="How are you implemented in the webpage?"
             onSend={handleMessageSend}
           />
         </ChatContainer>
