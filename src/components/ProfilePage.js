@@ -66,11 +66,12 @@ const Projects = ({ chatMax }) => {
   const [fileTreeHidden, setFileTreeHidden] = useState(true);
 
   const connectFourHandler = () => {
-    console.log("connect four clicked");
+    setFileTreeHidden(true);
     setConnectFourHidden(!connectFourHidden);
   };
 
   const fileTreeHandler = () => {
+    setConnectFourHidden(true);
     setFileTreeHidden(!fileTreeHidden);
   };
 
@@ -100,6 +101,7 @@ const Projects = ({ chatMax }) => {
             description={card1.description}
             image={card1.image}
             onClickHandler={connectFourHandler}
+            assetHidden={connectFourHidden}
           />
 
           <ProjectCardLocal
@@ -107,6 +109,7 @@ const Projects = ({ chatMax }) => {
             description={card2.description}
             image={card2.image}
             onClickHandler={fileTreeHandler}
+            assetHidden={fileTreeHidden}
           />
         </div>
         <ConnectFour connectFourHidden={connectFourHidden} />
@@ -151,9 +154,18 @@ const ProjectCardExt = ({ title, description, image, google, github }) => {
   );
 };
 
-const ProjectCardLocal = ({ title, description, image, onClickHandler }) => {
+const ProjectCardLocal = ({
+  title,
+  description,
+  image,
+  onClickHandler,
+  assetHidden,
+}) => {
   return (
-    <div className="project-card local" onClick={onClickHandler}>
+    <div
+      className={`project-card local ${assetHidden ? "" : "active"}`}
+      onClick={onClickHandler}
+    >
       <h1>{title}</h1>
       <img src={image}></img>
       <h3>{description}</h3>

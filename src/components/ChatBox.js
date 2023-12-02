@@ -112,7 +112,12 @@ const ChatBox = ({ musicMax, chatMax }) => {
       ref={chatBoxRef}
     >
       <MainContainer>
-        <ChatContainer>
+        <ChatContainer
+          styles={{
+            background: "linear-gradient(to top, #3978ff2b, #ffffff)",
+            // Add other styles as needed
+          }}
+        >
           <MessageList
             typingIndicator={
               typing ? <TypingIndicator content="ChatGPT is typing" /> : null
