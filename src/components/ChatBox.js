@@ -104,6 +104,9 @@ const ChatBox = ({ musicMax, chatMax }) => {
 
   const chatStyle = {
     background: `linear-gradient(to top, #3978ff21, #ffffff)`,
+    fontSize: "16px",
+    fontWeight: "normal",
+    fontFamily: "Lato, sans-serif",
   };
 
   return (
