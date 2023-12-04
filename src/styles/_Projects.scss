@@ -26,7 +26,6 @@
 }
 
 .projects {
-  margin-top: 2vh;
   margin-bottom: 100px;
   display: flex;
   flex-direction: column;
@@ -36,37 +35,48 @@
 }
 
 .intro-header {
-  border-radius: 10px;
-  border: 1px solid black;
+  display: grid;
+  place-items: center;
   padding: 10px;
-  margin-right: -0.2vw;
-  margin-top: 3vh;
+  margin-right: 0.1vw;
+  margin-top: 5vh;
   transition: all 0.5s ease;
+  cursor: pointer;
   text-align: center;
-  width: 52.5rem;
-  height: 13vh;
+  width: 43.5vw;
+  height: 11.5vh;
+  border-radius: 10px;
+  border: 1px solid rgb(46, 46, 46);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  &.header-hidden {
+    opacity: 0;
+  }
+  .intro-top-row {
+    display: flex;
+  }
+  .intro-bottom-row {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .mitten {
+    margin-left: 15px;
+    margin-top: 7px;
+    transform: scale(1.25, 1.25);
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
   h1 {
-    margin-top: 0px;
-    margin-left: 16vw;
+    padding-bottom: 0px;
     font-size: 44px;
   }
   h2 {
     font-size: 16px;
     font-weight: normal;
-
-    margin-left: 18.5vw;
   }
   img {
-    transition: all 0.5s ease;
-    &.img-min {
-      transform: translateY(85vh);
-    }
-    &.img-left {
-      left: 40.8vw;
-    }
-    position: absolute;
-    left: 49.5vw;
-    top: 15.5vh;
+    position: relative;
+    bottom: 3px;
     border: 1px solid #2e2e2e;
     border-radius: 50%;
     width: 40px;
@@ -96,10 +106,10 @@
   height: 50vh;
   width: 23rem;
   border-radius: 10px;
-  margin-top: 7vh;
-  margin-bottom: 0vh;
+  margin-top: 5vh;
+  margin-bottom: 2vh;
   &:hover {
-    background-color: rgba(177, 177, 177, 0.07);
+    background-color: rgba(0, 0, 0, 0.03);
   }
   &.local {
     cursor: pointer;
@@ -167,6 +177,8 @@
   justify-content: center;
   width: 60vw;
   column-gap: 6rem;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .file-tree {

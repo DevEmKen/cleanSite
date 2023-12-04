@@ -65,6 +65,8 @@ const Projects = ({ chatMax, musicMax }) => {
 
   const [connectFourHidden, setConnectFourHidden] = useState(true);
   const [fileTreeHidden, setFileTreeHidden] = useState(true);
+  const [headerClicked, setHeaderClicked] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(true);
 
   const connectFourHandler = () => {
     setFileTreeHidden(true);
@@ -76,30 +78,38 @@ const Projects = ({ chatMax, musicMax }) => {
     setFileTreeHidden(!fileTreeHidden);
   };
 
+  const headerClickHandler = () => {
+    setHeaderClicked(true);
+  };
+
+  useEffect(() => {
+    if (headerClicked) {
+      setTimeout(() => {
+        setHeaderVisible(false);
+      }, 500);
+    }
+  }, [headerClicked]);
+
   return (
     <div className="bottom-app">
       <div className="sidebar-spacer" />
 
       <div className="projects">
-        <div className={`intro-header`}>
-          <div style={{ display: "flex", width: "100%" }}>
-            <h1>Hello there!</h1>
-            <FontAwesomeIcon
-              icon={faMitten}
-              size={"2x"}
-              style={{ marginLeft: "5px", marginTop: "5px" }}
-            />
+        {headerVisible && (
+          <div
+            className={`intro-header ${headerClicked ? "header-hidden" : ""}`}
+            onClick={headerClickHandler}
+          >
+            <div className="intro-top-row">
+              <h1>Hello there!</h1>
+              <FontAwesomeIcon icon={faMitten} size={"2x"} className="mitten" />
+            </div>
+            <div className="intro-bottom-row">
+              <h2>Welcome to my website.</h2>
+            </div>
+            <img src={profpic} />
           </div>
-          <div style={{ display: "flex", width: "100%" }}>
-            <h2>Welcome to my website.</h2>
-            <img
-              src={profpic}
-              className={`${chatMax ? "img-left" : ""} ${
-                musicMax ? "img-min" : ""
-              }`}
-            />
-          </div>
-        </div>
+        )}
         <div className="cards">
           <ProjectCardExt
             title={card3.title}
@@ -133,8 +143,11 @@ const Projects = ({ chatMax, musicMax }) => {
             assetHidden={fileTreeHidden}
           />
         </div>
-        <ConnectFour connectFourHidden={connectFourHidden} />
-        <FileTree fileTreeHidden={fileTreeHidden} />
+
+        {!connectFourHidden && (
+          <ConnectFour connectFourHidden={connectFourHidden} />
+        )}
+        {!fileTreeHidden && <FileTree fileTreeHidden={fileTreeHidden} />}
       </div>
       <div className={`chat-spacer ${chatMax ? "spacer-min" : ""}`} />
     </div>
