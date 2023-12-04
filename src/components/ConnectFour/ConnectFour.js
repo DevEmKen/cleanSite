@@ -71,10 +71,12 @@ const Board = ({
         setBoard(newBoard);
         setPlayerTurn(!playerTurn);
         if (checkWinCondition(newCol[x], ind, x)) {
-          setGameOver(true);
           if (newCol[x] === "b") {
             setWhoWon("Black");
+          } else {
+            setWhoWon("Red");
           }
+          setGameOver(true);
         }
       }
     }

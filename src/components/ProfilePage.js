@@ -17,7 +17,7 @@ import profpic from "../assets/profpic.jpg";
 
 const ProfilePage = ({ currSong, musicMax, chatMax }) => {
   const songColor = {
-    background: `linear-gradient(to top, #3978ff2b, #ffffff)`,
+    background: `linear-gradient(to top, #3978ff1f, #f0f5ff1f)`,
   };
   return (
     <div
@@ -144,10 +144,16 @@ const Projects = ({ chatMax, musicMax }) => {
           />
         </div>
 
-        {!connectFourHidden && (
+        {
+          // For now ConnectFour and FileTree need to stay rendered,
+          // to animate properly when activated. Memoization helps optimize
+          //!connectFourHidden &&
           <ConnectFour connectFourHidden={connectFourHidden} />
-        )}
-        {!fileTreeHidden && <FileTree fileTreeHidden={fileTreeHidden} />}
+        }
+        {
+          //!fileTreeHidden &&
+          <FileTree fileTreeHidden={fileTreeHidden} />
+        }
       </div>
       <div className={`chat-spacer ${chatMax ? "spacer-min" : ""}`} />
     </div>

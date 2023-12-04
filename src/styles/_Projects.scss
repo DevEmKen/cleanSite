@@ -5,7 +5,6 @@
   max-height: 100vh;
   height: 95vh;
   width: 75vw;
-  padding-bottom: 50px;
   transition: all 0.5s ease;
   &.music-min {
     transform: translateY(-95vh);
@@ -39,7 +38,7 @@
   place-items: center;
   padding: 10px;
   margin-right: 0.1vw;
-  margin-top: 5vh;
+  margin-top: 6vh;
   transition: all 0.5s ease;
   cursor: pointer;
   text-align: center;
@@ -59,16 +58,17 @@
     margin-bottom: 10px;
   }
   .mitten {
-    margin-left: 15px;
-    margin-top: 7px;
-    transform: scale(1.25, 1.25);
+    margin-left: 10px;
+    margin-top: 5px;
+    //transform: scale(1.25, 1.25);
   }
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
   }
   h1 {
-    padding-bottom: 0px;
-    font-size: 44px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-size: 32px;
   }
   h2 {
     font-size: 16px;
@@ -76,7 +76,7 @@
   }
   img {
     position: relative;
-    bottom: 3px;
+    bottom: 0px;
     border: 1px solid #2e2e2e;
     border-radius: 50%;
     width: 40px;
@@ -85,7 +85,7 @@
 }
 
 .chat-spacer {
-  width: 11vw;
+  width: 10vw;
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -106,7 +106,7 @@
   height: 50vh;
   width: 23rem;
   border-radius: 10px;
-  margin-top: 5vh;
+  margin-top: 6vh;
   margin-bottom: 2vh;
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
