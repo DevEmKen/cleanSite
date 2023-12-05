@@ -59,7 +59,7 @@ const FileTree = ({ fileTreeHidden }) => {
   const [files, setFiles] = useState(exampleFiles);
 
   return (
-    <div className={`file-tree ${fileTreeHidden ? "tree-hidden" : ""}`}>
+    <div className={`f-tr ${fileTreeHidden ? "tree-hidden" : ""}`}>
       {files.children.map((entry) => {
         return (
           <Entry
