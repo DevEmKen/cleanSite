@@ -36,6 +36,7 @@ const ChatBox = ({ musicMax, chatMax }) => {
   const sendMessageToOpenAI = async (userMessage) => {
     try {
       setTyping(true);
+      setUserHasEngaged(true);
 
       // Retrieve the Assistant with the source files
       // that I uploaded on openAI playground
@@ -129,7 +130,11 @@ const ChatBox = ({ musicMax, chatMax }) => {
             ))}
           </MessageList>
           <MessageInput
-            placeholder="How are you implemented in the webpage?"
+            placeholder={`${
+              userHasEngaged
+                ? "Send a message..."
+                : "How are you implemented in the webpage?"
+            }`}
             attachDisabled={true}
             attachButton={false}
             onSend={handleMessageSend}
