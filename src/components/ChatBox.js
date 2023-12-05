@@ -130,6 +130,8 @@ const ChatBox = ({ musicMax, chatMax }) => {
           </MessageList>
           <MessageInput
             placeholder="How are you implemented in the webpage?"
+            attachDisabled={true}
+            attachButton={false}
             onSend={handleMessageSend}
           />
         </ChatContainer>
