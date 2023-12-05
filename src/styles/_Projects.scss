@@ -31,6 +31,7 @@
   align-items: center;
   width: 60vw;
   color: rgb(46, 46, 46);
+  transition: all 0.5s ease;
 }
 
 .intro-header {
@@ -179,6 +180,7 @@
   column-gap: 6rem;
   margin-top: 0;
   padding-top: 0;
+  transition: all 0.5s ease;
 }
 
 .file-tree {

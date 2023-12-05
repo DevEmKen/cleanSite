@@ -13,7 +13,8 @@ import ChatBox from "./components/ChatBox";
 import musicList from "./util";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import ProfPic from "./assets/profpic.jpg";
 // Improve performance of onTimeUpdate function with lodash
 import { throttle } from "lodash";
 
@@ -32,6 +33,7 @@ function App() {
   const [libraryActive, setLibraryActive] = useState(true);
   const [musicMax, setMusicMax] = useState(false);
   const [chatMax, setChatMax] = useState(true);
+  const [aboutMeVisible, setAboutMeVisible] = useState(false);
   const audioRef = useRef(null);
 
   // Play the next song when the current one ends
@@ -128,36 +130,92 @@ function App() {
           songInfo={songInfo}
           setSongInfo={setSongInfo}
         />
-
+        <AboutMe
+          aboutMeVisible={aboutMeVisible}
+          setAboutMeVisible={setAboutMeVisible}
+        />
         <ChatBox musicMax={musicMax} chatMax={chatMax} />
         <ChatBoxMaxButton
           musicMax={musicMax}
           chatMax={chatMax}
           setChatMax={setChatMax}
         />
-        <Sidebar musicMax={musicMax} />
+        <Sidebar musicMax={musicMax} setAboutMeVisible={setAboutMeVisible} />
         <ProfilePage
           currSong={currSong}
           musicMax={musicMax}
           chatMax={chatMax}
+          aboutMeVisible={aboutMeVisible}
+          setAboutMeVisible={setAboutMeVisible}
         />
       </div>
     </div>
   );
 }
 
-const Sidebar = ({ musicMax }) => {
-  // This state and it's useEffect allow the sidebar
-  // to start in middle of the screen then stick to the
-  // top as the user scrolls down
-  const [isFixed, setIsFixed] = useState(false);
+const Sidebar = ({ musicMax, setAboutMeVisible }) => {
+  const aboutMeHandler = () => {
+    setAboutMeVisible(true);
+  };
+  const resumeHandler = () => {};
+  const githubHandler = () => {
+    window.open("https://github.com/devemken", "_blank", "noreferrer");
+  };
 
   return (
     <ul id="Sidebar" className={`side-bar ${musicMax ? "side-min" : ""}`}>
-      <li>About me</li>
-      <li>Resume</li>
-      <li>Github</li>
+      <li onClick={aboutMeHandler} onAuxClick={aboutMeHandler}>
+        About me
+      </li>
+      <li onClick={resumeHandler} onAuxClick={resumeHandler}>
+        Resume
+      </li>
+      <li onClick={githubHandler} onAuxClick={githubHandler}>
+        Github
+      </li>
     </ul>
+  );
+};
+
+const AboutMe = ({ aboutMeVisible, setAboutMeVisible }) => {
+  const handleClose = () => {
+    setAboutMeVisible(false);
+  };
+
+  return (
+    <div className={`about-me ${aboutMeVisible ? "" : "abt-hide"}`}>
+      <div className="abt-card">
+        <FontAwesomeIcon
+          onClick={handleClose}
+          className="x-btn"
+          icon={faCircleXmark}
+        />
+        <h1>Emerson Kendall</h1>
+        <img src={ProfPic}></img>
+        <div className="about-me-body">
+          <p>
+            A computer science student from the PNW, seeking a position as a
+            Junior Software Engineer.
+          </p>
+          <br></br>
+          <p>
+            With experience developing a diverse array of personal projects, I
+            can bring to any team a strong foundation in fundamentals and a
+            passion for developing solutions that are clean and maintainable. I
+            am determined to contribute meaningfully to future projects,
+            seamlessly integrating into your team's workflow. The ability to
+            independently tackle problems without affecting the performance of
+            existing team members is critical for junior developers, and much of
+            my study has been focused around developing this skill.
+          </p>
+          <br></br>
+          <p>
+            With a graduation date in late 2024, I am excited to bring my
+            skills, dedication, and enthusiasm to your organization.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

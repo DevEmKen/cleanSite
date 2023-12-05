@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faMitten } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faCircleXmark,
+  faMitten,
+} from "@fortawesome/free-solid-svg-icons";
 import githubpng from "../assets/githubpng.png";
 import googleplaypng from "../assets/googleplaypng.png";
 // Child components
@@ -15,7 +19,13 @@ import wordscramblepng from "../assets/wordscramblepng.png";
 import reddalyzer from "../assets/reddalyzer.png";
 import profpic from "../assets/profpic.jpg";
 
-const ProfilePage = ({ currSong, musicMax, chatMax }) => {
+const ProfilePage = ({
+  currSong,
+  musicMax,
+  chatMax,
+  aboutMeVisible,
+  setAboutMeVisible,
+}) => {
   const songColor = {
     background: `linear-gradient(to top, #3978ff1f, #f0f5ff1f)`,
   };
@@ -26,12 +36,17 @@ const ProfilePage = ({ currSong, musicMax, chatMax }) => {
       }`}
       style={songColor}
     >
-      <Projects chatMax={chatMax} musicMax={musicMax} />
+      <Projects
+        chatMax={chatMax}
+        musicMax={musicMax}
+        aboutMeVisible={aboutMeVisible}
+        setAboutMeVisible={setAboutMeVisible}
+      />
     </div>
   );
 };
 
-const Projects = ({ chatMax, musicMax }) => {
+const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
   const card1 = {
     title: "Connect Four",
     description:
@@ -95,21 +110,30 @@ const Projects = ({ chatMax, musicMax }) => {
       <div className="sidebar-spacer" />
 
       <div className="projects">
-        {headerVisible && (
-          <div
-            className={`intro-header ${headerClicked ? "header-hidden" : ""}`}
-            onClick={headerClickHandler}
-          >
-            <div className="intro-top-row">
-              <h1>Hello there!</h1>
-              <FontAwesomeIcon icon={faMitten} size={"2x"} className="mitten" />
+        {
+          // This conditional render doesn't allow other elements to animate to
+          // their new positions when intro-header is de-rendered. Possible fix
+          // would be the package react-transition-group
+          headerVisible && (
+            <div
+              className={`intro-header ${headerClicked ? "header-hidden" : ""}`}
+              onClick={headerClickHandler}
+            >
+              <div className="intro-top-row">
+                <h1>Hello there!</h1>
+                <FontAwesomeIcon
+                  icon={faMitten}
+                  size={"2x"}
+                  className="mitten"
+                />
+              </div>
+              <div className="intro-bottom-row">
+                <h2>Welcome to my website.</h2>
+              </div>
+              <img src={profpic} />
             </div>
-            <div className="intro-bottom-row">
-              <h2>Welcome to my website.</h2>
-            </div>
-            <img src={profpic} />
-          </div>
-        )}
+          )
+        }
         <div className="cards">
           <ProjectCardExt
             title={card3.title}
@@ -147,6 +171,7 @@ const Projects = ({ chatMax, musicMax }) => {
         {
           // For now ConnectFour and FileTree need to stay rendered,
           // to animate properly when activated. Memoization helps optimize
+
           //!connectFourHidden &&
           <ConnectFour connectFourHidden={connectFourHidden} />
         }
@@ -222,5 +247,4 @@ const ProjectCardLocal = ({
     </div>
   );
 };
-
 export default ProfilePage;
