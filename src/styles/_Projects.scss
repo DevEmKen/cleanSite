@@ -79,6 +79,7 @@
     position: relative;
     bottom: 0px;
     border: 1px solid #2e2e2e;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -154,7 +155,10 @@
     padding-right: 3px;
   }
   h4 {
-    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+
     font-size: 13px;
     font-weight: normal;
   }

@@ -25,9 +25,7 @@
   display: flex;
   align-items: center;
   height: 13vh;
-  &.active-song {
-    background-color: rgb(202, 202, 202);
-  }
+
   &:hover {
     background-color: rgb(230, 230, 230);
   }
@@ -61,6 +59,9 @@
       text-decoration: underline;
     }
   }
+}
+.active-song {
+  background-color: rgb(202, 202, 202);
 }
 
 .library-song-info {

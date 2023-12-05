@@ -133,6 +133,7 @@ function App() {
         <AboutMe
           aboutMeVisible={aboutMeVisible}
           setAboutMeVisible={setAboutMeVisible}
+          chatMax={chatMax}
         />
         <ChatBox musicMax={musicMax} chatMax={chatMax} />
         <ChatBoxMaxButton
@@ -157,7 +158,13 @@ const Sidebar = ({ musicMax, setAboutMeVisible }) => {
   const aboutMeHandler = () => {
     setAboutMeVisible(true);
   };
-  const resumeHandler = () => {};
+  const resumeHandler = () => {
+    window.open(
+      "https://drive.google.com/file/d/15GvsHVXW2ezCO5qRsE1Doqay2onTGi39/view?usp=sharing",
+      "_blank",
+      "noreferrer"
+    );
+  };
   const githubHandler = () => {
     window.open("https://github.com/devemken", "_blank", "noreferrer");
   };
@@ -177,14 +184,14 @@ const Sidebar = ({ musicMax, setAboutMeVisible }) => {
   );
 };
 
-const AboutMe = ({ aboutMeVisible, setAboutMeVisible }) => {
+const AboutMe = ({ aboutMeVisible, setAboutMeVisible, chatMax }) => {
   const handleClose = () => {
     setAboutMeVisible(false);
   };
 
   return (
-    <div className={`about-me ${aboutMeVisible ? "" : "abt-hide"}`}>
-      <div className="abt-card">
+    <div className={`about-me ${aboutMeVisible ? "" : "abt-hide"} `}>
+      <div className={`abt-card ${chatMax ? "" : "chat-min"}`}>
         <FontAwesomeIcon
           onClick={handleClose}
           className="x-btn"
