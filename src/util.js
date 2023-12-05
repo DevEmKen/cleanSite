@@ -8,7 +8,7 @@ function musicList() {
       coverURL:
         "https://cdn.pixabay.com/audio/2023/07/22/02-53-18-138_200x200.jpg",
       songURL: "https://cdn.pixabay.com/audio/2023/07/22/audio_720626056a.mp3",
-      color: "rgb(228, 138, 86)",
+      color: "#E58796",
       id: uuidv4(),
       active: false,
     },

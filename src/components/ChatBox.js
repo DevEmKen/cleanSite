@@ -23,7 +23,7 @@ const ChatBox = ({ musicMax, chatMax }) => {
   const [messages, setMessages] = useState([
     {
       message:
-        "Hello, I'm chatGPT3.5 Assistant! Ask me anything about this website, it's source code, or functionality! I am a beta AI. My answers may not be accurate, and sometimes you have to remind me that I have access to all of the files and can search through them.",
+        "Hello, I'm chatGPT3.5 Assistant! Ask me anything about this website, it's source code, or functionality. I am a beta AI - my answers may not be accurate, and you might have to remind me to do my job.",
       sender: "ChatGPT",
       direction: "incoming",
     },
@@ -107,11 +107,7 @@ const ChatBox = ({ musicMax, chatMax }) => {
     background: `linear-gradient(to top, #3978ff1f, #f0f5ff1f)`,
     fontSize: "16px",
     fontWeight: "normal",
-    fontFamily: "Helvetica, sans-serif",
-  };
-
-  const typingStyle = {
-    background: "transparent",
+    fontFamily: "Lato, sans-serif",
   };
 
   return (
@@ -128,7 +124,7 @@ const ChatBox = ({ musicMax, chatMax }) => {
               typing ? (
                 <TypingIndicator
                   content="ChatGPT is typing"
-                  style={typingStyle}
+                  style={{ background: "transparent" }}
                 />
               ) : null
             }
