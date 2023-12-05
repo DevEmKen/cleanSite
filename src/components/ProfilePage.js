@@ -5,6 +5,7 @@ import {
   faAngleDown,
   faCircleXmark,
   faMitten,
+  faHand,
 } from "@fortawesome/free-solid-svg-icons";
 import githubpng from "../assets/githubpng.png";
 import googleplaypng from "../assets/googleplaypng.png";
@@ -121,11 +122,7 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
             >
               <div className="intro-top-row">
                 <h1>Hello there!</h1>
-                <FontAwesomeIcon
-                  icon={faMitten}
-                  size={"2x"}
-                  className="mitten"
-                />
+                <FontAwesomeIcon icon={faHand} size={"2x"} className="mitten" />
               </div>
               <div className="intro-bottom-row">
                 <h2>Welcome to my website.</h2>

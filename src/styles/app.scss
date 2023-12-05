@@ -80,7 +80,7 @@ ul {
   position: fixed;
   left: 5.5vw;
   top: 11vh;
-  z-index: 100;
+  z-index: 99;
   transition: all 0.5s ease;
   border-radius: 10px;
   border: 1px solid rgb(46, 46, 46);
@@ -106,7 +106,7 @@ ul {
 
 .about-me {
   position: fixed;
-  z-index: 100;
+  z-index: 101;
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -127,7 +127,7 @@ ul {
   left: 19.2vw;
   top: 10vh;
   width: 45vw;
-  height: 57%;
+  height: 71%;
   border: 1px solid rgb(46, 46, 46);
   border-radius: 10px;
   background: whitesmoke;
@@ -137,26 +137,41 @@ ul {
   &.chat-min {
     left: 28vw;
   }
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px 0px 0px 8px;
+    width: 45%;
+    height: 100%;
+  }
+}
+
+.about-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: 55%;
   h1 {
-    margin-top: 60px;
+    text-align: left;
+    margin-top: 120px;
+    margin-left: 30px;
     font-size: 24px;
   }
-  img {
-    margin-top: 30px;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid rgb(46, 46, 46);
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  }
-  p {
+  h2 {
+    color: gray;
     font-size: 16px;
+    margin-top: 5px;
+    margin-left: 30px;
   }
 }
 
 .about-me-body {
-  margin: 70px;
-  margin-top: 30px;
+  margin-left: 30px;
+  margin-top: 40px;
+  margin-right: 40px;
 }
 
 .x-btn {

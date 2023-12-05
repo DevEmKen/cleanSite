@@ -40,6 +40,7 @@
   padding: 10px;
   margin-right: 0.1vw;
   margin-top: 6vh;
+  margin-bottom: 2vh;
   transition: all 0.5s ease;
   cursor: pointer;
   text-align: center;
@@ -61,7 +62,7 @@
   .mitten {
     margin-left: 10px;
     margin-top: 5px;
-    //transform: scale(1.25, 1.25);
+    transform: rotate(20deg);
   }
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);

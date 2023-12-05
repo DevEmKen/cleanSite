@@ -14,7 +14,7 @@ import musicList from "./util";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import ProfPic from "./assets/profpic.jpg";
+import MeAndBro from "./assets/MeAndBro.jpg";
 // Improve performance of onTimeUpdate function with lodash
 import { throttle } from "lodash";
 
@@ -32,12 +32,13 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [libraryActive, setLibraryActive] = useState(true);
   const [musicMax, setMusicMax] = useState(false);
-  const [chatMax, setChatMax] = useState(true);
+  const [chatMax, setChatMax] = useState(false);
   const [aboutMeVisible, setAboutMeVisible] = useState(false);
   const audioRef = useRef(null);
 
-  // Play the next song when the current one ends
   useEffect(() => {
+    setChatMax(true);
+    // Play the next song when the current one ends
     audioRef.current.addEventListener("ended", () => {
       let currentIndex = listOfSongs.findIndex(
         (song) => song.id === currSong.id
@@ -160,7 +161,7 @@ const Sidebar = ({ musicMax, setAboutMeVisible }) => {
   };
   const resumeHandler = () => {
     window.open(
-      "https://drive.google.com/file/d/15GvsHVXW2ezCO5qRsE1Doqay2onTGi39/view?usp=sharing",
+      "https://drive.google.com/file/d/15LGgkwKGW8JBRso1Ghfz4ND2keMGWnKW/view?usp=sharing",
       "_blank",
       "noreferrer"
     );
@@ -189,37 +190,52 @@ const AboutMe = ({ aboutMeVisible, setAboutMeVisible, chatMax }) => {
     setAboutMeVisible(false);
   };
 
+  const handleNotClose = (e) => {
+    // Don't want the about-me card to close when you click
+    // inside of the card, only when you click outside of it
+    e.stopPropagation();
+  };
+
   return (
-    <div className={`about-me ${aboutMeVisible ? "" : "abt-hide"} `}>
-      <div className={`abt-card ${chatMax ? "" : "chat-min"}`}>
+    <div
+      className={`about-me ${aboutMeVisible ? "" : "abt-hide"} `}
+      onClick={handleClose}
+    >
+      <div
+        className={`abt-card ${chatMax ? "" : "chat-min"}`}
+        onClick={handleNotClose}
+      >
         <FontAwesomeIcon
           onClick={handleClose}
           className="x-btn"
           icon={faCircleXmark}
         />
-        <h1>Emerson Kendall</h1>
-        <img src={ProfPic}></img>
-        <div className="about-me-body">
-          <p>
-            A computer science student from the PNW, seeking a position as a
-            Junior Software Engineer.
-          </p>
-          <br></br>
-          <p>
-            With experience developing a diverse array of personal projects, I
-            can bring to any team a strong foundation in fundamentals and a
-            passion for developing solutions that are clean and maintainable. I
-            am determined to contribute meaningfully to future projects,
-            seamlessly integrating into your team's workflow. The ability to
-            independently tackle problems without affecting the performance of
-            existing team members is critical for junior developers, and much of
-            my study has been focused around developing this skill.
-          </p>
-          <br></br>
-          <p>
-            With a graduation date in late 2024, I am excited to bring my
-            skills, dedication, and enthusiasm to your organization.
-          </p>
+        <img src={MeAndBro}></img>
+        <div className="about-text">
+          <h1>Emerson Kendall</h1>
+          <h2>Colorado State University Global</h2>
+          <div className="about-me-body">
+            <p>
+              A computer science student from the Pacific NW, seeking a position
+              as a Junior Software Engineer.
+            </p>
+            <br></br>
+            <p>
+              With experience developing a diverse array of personal projects, I
+              can bring to any team a strong foundation in fundamentals and a
+              passion for developing solutions that are clean and maintainable.
+              I am determined to contribute meaningfully to future projects,
+              seamlessly integrating into your team's workflow. The ability to
+              independently tackle problems without affecting the performance of
+              existing team members is critical for junior developers, and much
+              of my study has been focused around developing this skill.
+            </p>
+            <br></br>
+            <p>
+              With a graduation date in late 2024, I am excited to bring my
+              skills, dedication, and enthusiasm to your organization.
+            </p>
+          </div>
         </div>
       </div>
     </div>
