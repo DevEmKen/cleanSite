@@ -107,7 +107,8 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border: 1px solid rgb(46, 46, 46);
   height: 50vh;
-  width: 23rem;
+  width: 19.2vw;
+  min-width: 19rem;
   border-radius: 10px;
   margin-top: 6vh;
   margin-bottom: 2vh;
@@ -191,7 +192,11 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 100px;
-  max-height: 40vh;
+  height: 40vh;
+  width: auto;
+  overflow: auto;
+  background-color: rgb(224, 224, 224);
+  padding: 10px;
   &.tree-hidden {
     margin: 0;
     padding: 0;
@@ -199,5 +204,29 @@
     max-width: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
+  }
+}
+
+.entry {
+  display: flex;
+
+  .plus-minus {
+    border: 1px solid black;
+    background: white;
+    width: 0.7rem;
+    height: 0.7rem;
+    display: grid;
+    place-content: center;
+    position: relative;
+    top: 2px;
+  }
+}
+
+.custom-context {
+  width: 7rem;
+  background: rebeccapurple;
+  &.context-hide {
+    opacity: 0;
+    visibility: hidden;
   }
 }
