@@ -2,26 +2,21 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const exampleFiles = {
-  id: uuidv4(),
+  id: "root",
   children: [
     {
-      id: uuidv4(),
       filename: "first_entry",
       children: [
         {
-          id: uuidv4(),
           filename: "second entry",
           children: [
             {
-              id: uuidv4(),
               filename: "depth three",
               children: [
                 {
-                  id: uuidv4(),
                   filename: "depth four",
                   children: [
                     {
-                      id: uuidv4(),
                       filename: "depth five",
                     },
                   ],
@@ -33,52 +28,68 @@ const exampleFiles = {
       ],
     },
     {
-      id: uuidv4(),
       filename: "another one",
     },
     {
-      id: uuidv4(),
       filename: "ANOTHA ONE",
+      children: [{ id: uuidv4(), filename: "ANOTHA ONE" }],
     },
     {
-      id: uuidv4(),
       filename: "quatttro",
     },
   ],
 };
 
 const FileTree = ({ fileTreeHidden }) => {
-  const [files, setFiles] = useState(exampleFiles);
-  const [contextMenuOpen, setContextMenuOpen] = useState(false);
-  const [cursorPos, setCursorPos] = useState({ X: 0, Y: 0 });
-
-  const updateFilename = ({ oldName, newName }) => {
-    setFiles((prev) => {
-      if (prev.filename === oldName) {
-        return { ...prev, filename: newName };
-      }
-      const updatedChildNames = prev.children?.map((child) => {
-        if (child.filename === oldName) {
-          return { ...child, filename: newName };
-        }
-        return child;
-      });
-      return { ...prev, children: updatedChildNames };
+  const enhancedFiles = (objArr) => {
+    if (!objArr) return null;
+    return objArr.map((oldFile) => {
+      return {
+        ...oldFile,
+        id: uuidv4(),
+        newFileBeingMade: false,
+        children: oldFile.children ? enhancedFiles(oldFile.children) : null,
+      };
     });
   };
 
+  const [files, setFiles] = useState(enhancedFiles(exampleFiles.children));
+  //const [files, setFiles] = useState(exampleFiles);
+  const [contextMenuOpen, setContextMenuOpen] = useState(false);
+  // Used to position the context menu next to the cursor
+  const [cursorPos, setCursorPos] = useState({ X: 0, Y: 0 });
+  // Used by the context menu to know which file called it
+  const [currFileId, setCurrFileId] = useState("root");
+  const [newFileBeingMade, setNewFileBeingMade] = useState(false);
+
+  const handleRootContext = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const scrollContainer = document.querySelector(".prof-page");
+    const clientX = e.clientX + 5;
+    const clientY = scrollContainer.scrollTop + e.clientY - 45;
+    setCursorPos({ X: clientX, Y: clientY });
+    setContextMenuOpen(true);
+    setCurrFileId("root");
+  };
+
   return (
-    <div className={`f-tr ${fileTreeHidden ? "tree-hidden" : ""}`}>
+    <div
+      className={`f-tr ${fileTreeHidden ? "tree-hidden" : ""}`}
+      onContextMenu={handleRootContext}
+    >
       {files.children.map((entry) => {
         return (
           <Entry
             key={entry.id}
+            fileid={entry.id}
             filename={entry.filename}
-            updateFilename={updateFilename}
             setContextMenuOpen={setContextMenuOpen}
             setCursorPos={setCursorPos}
+            setCurrFileId={setCurrFileId}
             children={entry.children}
-            depth={1}
+            currFileId={currFileId}
           />
         );
       })}
@@ -86,6 +97,8 @@ const FileTree = ({ fileTreeHidden }) => {
         <CustomContext
           contextMenuOpen={contextMenuOpen}
           setContextMenuOpen={setContextMenuOpen}
+          currFileId={currFileId}
+          setCurrFileId={setCurrFileId}
           X={cursorPos.X}
           Y={cursorPos.Y}
         />
@@ -95,60 +108,76 @@ const FileTree = ({ fileTreeHidden }) => {
 };
 
 const Entry = ({
+  fileid,
   filename,
   children,
-  depth,
-  updateFilename,
   setContextMenuOpen,
   setCursorPos,
+  setCurrFileId,
+  currFileId,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  // Used to highlight the entry when it's used to call the context menu
+  const [highlighted, setHighlighted] = useState(false);
+  const [newFileBeingMade, setNewFileBeingMade] = useState(false);
 
   const handleOpenContext = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("context HGANDLER CALLED");
-
-    const scrollContainer = document.querySelector(".prof-page");
     const clientX = e.clientX + 5;
-    const clientY = scrollContainer.scrollTop + e.clientY - 45;
-    console.log(clientY);
+    const clientY =
+      e.clientY + document.querySelector(".prof-page").scrollTop - 45;
     setCursorPos({ X: clientX, Y: clientY });
+
     setContextMenuOpen(true);
+    setCurrFileId(fileid);
+    setHighlighted(true);
   };
 
   const expandHandler = () => {
     setExpanded(!expanded);
   };
 
+  useEffect(() => {
+    //console.log("useEffectreached");
+    if (currFileId !== fileid) {
+      setHighlighted(false);
+    }
+  }, [currFileId, fileid]);
+
   return (
     <div>
       <div
-        className="entry"
+        className={`entry ${highlighted ? "highlight" : ""}`}
         onClick={expandHandler}
         onContextMenu={handleOpenContext}
       >
         {children ? (
           <div className="plus-minus">{expanded ? "-" : "+"}</div>
         ) : (
-          <div style={{ width: "0.7rem" }} />
+          //<div style={{ width: "0.7rem" }} />
+          <></>
         )}
         {filename}
       </div>
+      {newFileBeingMade ? (
+        <input type="text" style={{ marginLeft: `${15}px` }} />
+      ) : null}
       {children && expanded
         ? children.map((entry) => {
             return (
               <div style={{ paddingLeft: `${15}px` }}>
                 <Entry
                   key={entry.id}
+                  fileid={entry.id}
                   filename={entry.filename}
                   expanded={entry.expanded}
                   children={entry.children}
                   setContextMenuOpen={setContextMenuOpen}
                   setCursorPos={setCursorPos}
-                  updateFilename={updateFilename}
-                  depth={depth + 1}
+                  setCurrFileId={setCurrFileId}
+                  currFileId={currFileId}
                 />
               </div>
             );
@@ -158,26 +187,26 @@ const Entry = ({
   );
 };
 
-const CustomContext = ({ contextMenuOpen, setContextMenuOpen, X, Y }) => {
-  // useEffect(() => {
-  //   console.log("X: " + X + " Y: " + Y);
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("X: " + X + " Y: " + Y);
-  // }, [contextMenuOpen]);
-
+const CustomContext = ({
+  contextMenuOpen,
+  setContextMenuOpen,
+  currFileId,
+  setCurrFileId,
+  X,
+  Y,
+}) => {
   // We want the context menu to close if something else gets clicked on
   const handleOutsideClick = (e) => {
     if (e.target !== document.querySelector(".custom-context")) {
       setContextMenuOpen(false);
+      setCurrFileId("root"); // De-highlights the previously selected file
     }
   };
-
+  // This listens for the click outside of context menu
   useEffect(() => {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
-  }, []);
+  });
 
   const contextStyle = {
     position: "absolute",
@@ -190,8 +219,13 @@ const CustomContext = ({ contextMenuOpen, setContextMenuOpen, X, Y }) => {
       className={`custom-context ${contextMenuOpen ? "" : "context-hide"}`}
       style={contextStyle}
     >
-      <div className="context-btn">Rename file</div>
-      <div className="context-btn">Delete file</div>
+      <div className="context-btn">Create new file</div>
+      {currFileId !== "root" ? (
+        <>
+          <div className="context-btn">Rename file</div>
+          <div className="context-btn">Delete file</div>
+        </>
+      ) : null}
     </div>
   );
 };

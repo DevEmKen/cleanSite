@@ -189,11 +189,12 @@
 }
 
 .f-tr {
+  font-family: Courier New, Courier, monospace;
   display: flex;
   flex-direction: column;
   margin-bottom: 100px;
-  height: 40vh;
-  width: auto;
+  min-height: 20vh;
+  min-width: 10vw;
   overflow: auto;
   background-color: rgb(224, 224, 224);
   padding: 10px;
@@ -201,6 +202,7 @@
     margin: 0;
     padding: 0;
     max-height: 0;
+    min-height: 0;
     max-width: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
@@ -208,10 +210,13 @@
 }
 
 .entry {
+  font-family: Courier New, Courier, monospace;
   display: flex;
+  cursor: pointer;
 
   .plus-minus {
     border: 1px solid black;
+    color: black !important;
     background: white;
     width: 0.7rem;
     height: 0.7rem;
@@ -219,6 +224,15 @@
     place-content: center;
     position: relative;
     top: 2px;
+  }
+
+  &.highlight {
+    background: blue !important;
+  }
+
+  &:hover {
+    background: black;
+    color: white;
   }
 }
 
@@ -229,4 +243,7 @@
     opacity: 0;
     visibility: hidden;
   }
+}
+
+.context-btn {
 }
