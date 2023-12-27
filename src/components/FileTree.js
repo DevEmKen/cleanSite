@@ -108,6 +108,7 @@ const FileTree = ({ fileTreeHidden }) => {
     });
 
     const renameHelper = (tree, targetId) => {
+      console.log("k");
       if (tree.id === targetId) {
         return {
           ...tree,
