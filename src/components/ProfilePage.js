@@ -172,10 +172,7 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
           //!connectFourHidden &&
           <ConnectFour connectFourHidden={connectFourHidden} />
         }
-        {
-          //!fileTreeHidden &&
-          <FileTree fileTreeHidden={fileTreeHidden} />
-        }
+        {!fileTreeHidden && <FileTree fileTreeHidden={fileTreeHidden} />}
       </div>
       <div className={`chat-spacer ${chatMax ? "spacer-min" : ""}`} />
     </div>

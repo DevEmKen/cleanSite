@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const exampleFiles = {
@@ -32,7 +32,11 @@ const exampleFiles = {
     },
     {
       filename: "ANOTHA ONE",
-      children: [{ id: uuidv4(), filename: "ANOTHA ONE" }],
+      children: [
+        {
+          filename: "ANOTHA ONE",
+        },
+      ],
     },
     {
       filename: "quatttro",
@@ -41,27 +45,27 @@ const exampleFiles = {
 };
 
 const FileTree = ({ fileTreeHidden }) => {
-  const enhancedFiles = (objArr) => {
-    if (!objArr) return null;
-    return objArr.map((oldFile) => {
-      return {
-        ...oldFile,
-        id: uuidv4(),
-        newFileBeingMade: false,
-        children: oldFile.children ? enhancedFiles(oldFile.children) : null,
-      };
-    });
+  const enhanceFiles = (files, parentId) => {
+    const newId = uuidv4();
+    return {
+      ...files,
+      renaming: false,
+      expanded: false,
+      id: newId,
+      parentId: parentId,
+      children: files.children?.map((child) => enhanceFiles(child, newId)),
+    };
   };
 
-  const [files, setFiles] = useState(enhancedFiles(exampleFiles.children));
-  //const [files, setFiles] = useState(exampleFiles);
+  const [files, setFiles] = useState(enhanceFiles(exampleFiles));
   const [contextMenuOpen, setContextMenuOpen] = useState(false);
   // Used to position the context menu next to the cursor
   const [cursorPos, setCursorPos] = useState({ X: 0, Y: 0 });
   // Used by the context menu to know which file called it
   const [currFileId, setCurrFileId] = useState("root");
-  const [newFileBeingMade, setNewFileBeingMade] = useState(false);
+  const [inputVal, setInputVal] = useState("");
 
+  // Stops root directory from having "Rename" or "Delete" option
   const handleRootContext = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -74,17 +78,139 @@ const FileTree = ({ fileTreeHidden }) => {
     setCurrFileId("root");
   };
 
+  const handleRenameFromContext = () => {
+    setFiles((prevFiles) => {
+      const newFiles = renameHelper(prevFiles, currFileId);
+      return newFiles;
+    });
+
+    const renameHelper = (tree, targetId) => {
+      console.log("looking for " + targetId + " found " + tree.id);
+      if (tree.id === targetId) {
+        setContextMenuOpen(false);
+        return {
+          ...tree,
+          renaming: true,
+        };
+      } else {
+        return {
+          ...tree,
+          children: tree.children?.map((ch) => renameHelper(ch, targetId)),
+        };
+      }
+    };
+  };
+
+  const handleRenameFromEntry = (inputVal) => {
+    setFiles((prevFiles) => {
+      const newFiles = renameHelper(prevFiles, currFileId);
+      return newFiles;
+    });
+
+    const renameHelper = (tree, targetId) => {
+      if (tree.id === targetId) {
+        return {
+          ...tree,
+          filename: inputVal,
+          renaming: false,
+        };
+      } else {
+        return {
+          ...tree,
+          children: tree.children?.map((ch) => renameHelper(ch, targetId)),
+        };
+      }
+    };
+  };
+
+  const handleRenameFromRoot = (e) => {
+    const v = e.target.value;
+    handleRenameFromEntry(v);
+  };
+
+  const handleCreateFile = () => {
+    setFiles((prevFiles) => {
+      const newFiles = createHelper(prevFiles, currFileId);
+      return newFiles;
+    });
+
+    const createHelper = (tree, targetId) => {
+      if (tree.id === targetId) {
+        const newFile = {
+          filename: "",
+          renaming: true,
+          id: uuidv4(),
+          expanded: false,
+        };
+        setCurrFileId(newFile.id);
+        tree.expanded = true;
+        return {
+          ...tree,
+          children: tree.children ? [newFile, ...tree.children] : [newFile],
+        };
+      } else {
+        return {
+          ...tree,
+          children: tree.children?.map((ch) => createHelper(ch, targetId)),
+        };
+      }
+    };
+  };
+
+  const handleDeleteFile = () => {
+    setFiles((prevFiles) => {
+      const newFiles = deleteHelper(prevFiles, currFileId);
+      return newFiles;
+    });
+
+    const deleteHelper = (tree, targetId) => {
+      if (tree?.id === targetId) {
+        deleteFromParent(files, tree.parentId, targetId);
+      } else {
+        return {
+          ...tree,
+          children: tree?.children?.map((ch) => deleteHelper(ch, targetId)),
+        };
+      }
+    };
+
+    const deleteFromParent = (tree, parentId, targetId) => {
+      if (tree.id === parentId) {
+        return {
+          ...tree,
+          expanded: false,
+          children: tree.children?.filter((ch) => ch?.id !== targetId),
+        };
+      }
+    };
+  };
+
   return (
     <div
       className={`f-tr ${fileTreeHidden ? "tree-hidden" : ""}`}
       onContextMenu={handleRootContext}
     >
+      {files.renaming ? (
+        <form onSubmit={handleRenameFromRoot}>
+          <input
+            type="text"
+            style={{
+              marginLeft: `${1}px`,
+            }}
+            defaultValue={""}
+            onChange={(e) => setInputVal(e.target.value)}
+          />
+        </form>
+      ) : null}
       {files.children.map((entry) => {
+        if (!entry) return null;
         return (
           <Entry
             key={entry.id}
+            fileObj={entry}
             fileid={entry.id}
             filename={entry.filename}
+            handleRename={handleRenameFromEntry}
             setContextMenuOpen={setContextMenuOpen}
             setCursorPos={setCursorPos}
             setCurrFileId={setCurrFileId}
@@ -99,6 +225,11 @@ const FileTree = ({ fileTreeHidden }) => {
           setContextMenuOpen={setContextMenuOpen}
           currFileId={currFileId}
           setCurrFileId={setCurrFileId}
+          files={files}
+          setFiles={setFiles}
+          handleRename={handleRenameFromContext}
+          handleCreateFile={handleCreateFile}
+          handleDeleteFile={handleDeleteFile}
           X={cursorPos.X}
           Y={cursorPos.Y}
         />
@@ -108,8 +239,10 @@ const FileTree = ({ fileTreeHidden }) => {
 };
 
 const Entry = ({
+  fileObj,
   fileid,
   filename,
+  handleRename,
   children,
   setContextMenuOpen,
   setCursorPos,
@@ -119,7 +252,46 @@ const Entry = ({
   const [expanded, setExpanded] = useState(false);
   // Used to highlight the entry when it's used to call the context menu
   const [highlighted, setHighlighted] = useState(false);
-  const [newFileBeingMade, setNewFileBeingMade] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [inputVal, setInputVal] = useState("");
+
+  const inputRef = React.useRef(null);
+
+  // Runs whenever renaming starts or stops
+  useEffect(() => {
+    if (isRenaming) {
+      setHighlighted(false);
+      inputRef.current.focus();
+    }
+  }, [isRenaming]);
+
+  useEffect(() => {
+    setIsRenaming(fileObj.renaming);
+    if (isRenaming) {
+      setHighlighted(false);
+      inputRef.current.focus();
+    }
+  }, [fileObj.renaming]);
+
+  useEffect(() => {
+    setExpanded(fileObj.expanded);
+  }, [fileObj.expanded]);
+
+  // Stops from attempting to render a null Entry if all
+  // children of a component are deleted
+  useEffect(() => {
+    if (!fileObj.children) {
+      setExpanded(false);
+    }
+  }, [fileObj.children]);
+
+  useEffect(() => {
+    //console.log("useEffectreached");
+    if (currFileId !== fileid) {
+      setHighlighted(false);
+      setIsRenaming(false);
+    }
+  }, [currFileId, fileid]);
 
   const handleOpenContext = (e) => {
     e.preventDefault();
@@ -135,16 +307,17 @@ const Entry = ({
     setHighlighted(true);
   };
 
+  const handleRenameLocal = (e) => {
+    e.preventDefault();
+    setCurrFileId(fileid);
+    handleRename(inputVal);
+    setIsRenaming(false);
+    setHighlighted(false);
+  };
+
   const expandHandler = () => {
     setExpanded(!expanded);
   };
-
-  useEffect(() => {
-    //console.log("useEffectreached");
-    if (currFileId !== fileid) {
-      setHighlighted(false);
-    }
-  }, [currFileId, fileid]);
 
   return (
     <div>
@@ -155,23 +328,36 @@ const Entry = ({
       >
         {children ? (
           <div className="plus-minus">{expanded ? "-" : "+"}</div>
+        ) : //<div style={{ width: "0.7rem" }} />
+        null}
+        {isRenaming ? (
+          <form onSubmit={handleRenameLocal}>
+            <input
+              type="text"
+              ref={inputRef}
+              style={{
+                marginLeft: `${1}px`,
+              }}
+              defaultValue={filename}
+              onChange={(e) => setInputVal(e.target.value)}
+            />
+          </form>
         ) : (
-          //<div style={{ width: "0.7rem" }} />
-          <></>
+          filename
         )}
-        {filename}
       </div>
-      {newFileBeingMade ? (
-        <input type="text" style={{ marginLeft: `${15}px` }} />
-      ) : null}
+
       {children && expanded
         ? children.map((entry) => {
+            if (!entry) return null;
             return (
               <div style={{ paddingLeft: `${15}px` }}>
                 <Entry
                   key={entry.id}
+                  fileObj={entry}
                   fileid={entry.id}
                   filename={entry.filename}
+                  handleRename={handleRename}
                   expanded={entry.expanded}
                   children={entry.children}
                   setContextMenuOpen={setContextMenuOpen}
@@ -192,21 +378,36 @@ const CustomContext = ({
   setContextMenuOpen,
   currFileId,
   setCurrFileId,
+  files,
+  setFiles,
+  handleRename,
+  handleCreateFile,
+  handleDeleteFile,
   X,
   Y,
 }) => {
   // We want the context menu to close if something else gets clicked on
-  const handleOutsideClick = (e) => {
-    if (e.target !== document.querySelector(".custom-context")) {
-      setContextMenuOpen(false);
-      setCurrFileId("root"); // De-highlights the previously selected file
-    }
+  // const handleOutsideClick = (e) => {
+  //   if (e.target !== document.querySelector(".context-btn")) {
+  //     console.log("off");
+  //     setContextMenuOpen(false);
+  //     setCurrFileId("root"); // De-highlights the previously selected file
+  //   }
+  // };
+  // // This listens for the click outside of context menu
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleOutsideClick);
+  //   return () => document.removeEventListener("mousedown", handleOutsideClick);
+  // });
+  const handleCreateFileLocal = () => {
+    handleCreateFile();
+    setContextMenuOpen(false);
   };
-  // This listens for the click outside of context menu
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
-  });
+
+  const handleDeleteFileLocal = () => {
+    handleDeleteFile();
+    setContextMenuOpen(false);
+  };
 
   const contextStyle = {
     position: "absolute",
@@ -219,15 +420,25 @@ const CustomContext = ({
       className={`custom-context ${contextMenuOpen ? "" : "context-hide"}`}
       style={contextStyle}
     >
-      <div className="context-btn">Create new file</div>
+      <div className="context-btn" onClick={handleCreateFileLocal}>
+        Create new file
+      </div>
       {currFileId !== "root" ? (
         <>
-          <div className="context-btn">Rename file</div>
-          <div className="context-btn">Delete file</div>
+          <div
+            className="context-btn"
+            onClick={handleRename}
+            style={{ cursor: "pointer" }}
+          >
+            Rename file
+          </div>
+          <div className="context-btn" onClick={handleDeleteFileLocal}>
+            Delete file
+          </div>
         </>
       ) : null}
     </div>
   );
 };
 
-export default FileTree;
+export default React.memo(FileTree);
