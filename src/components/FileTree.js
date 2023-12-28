@@ -85,6 +85,7 @@ const FileTree = ({ fileTreeHidden }) => {
     });
 
     const renameHelper = (tree, targetId) => {
+      if (!tree) return;
       console.log("looking for " + targetId + " found " + tree.id);
       if (tree.id === targetId) {
         setContextMenuOpen(false);
@@ -95,6 +96,7 @@ const FileTree = ({ fileTreeHidden }) => {
       } else {
         return {
           ...tree,
+          renaming: false,
           children: tree.children?.map((ch) => renameHelper(ch, targetId)),
         };
       }
@@ -108,7 +110,7 @@ const FileTree = ({ fileTreeHidden }) => {
     });
 
     const renameHelper = (tree, targetId) => {
-      console.log("k");
+      if (!tree) return;
       if (tree.id === targetId) {
         return {
           ...tree,
@@ -136,6 +138,7 @@ const FileTree = ({ fileTreeHidden }) => {
     });
 
     const createHelper = (tree, targetId) => {
+      if (!tree) return;
       if (tree.id === targetId) {
         const newFile = {
           filename: "",
@@ -165,6 +168,7 @@ const FileTree = ({ fileTreeHidden }) => {
     });
 
     const deleteHelper = (tree, targetId) => {
+      if (!tree) return;
       if (tree?.id === targetId) {
         deleteFromParent(files, tree.parentId, targetId);
       } else {
@@ -289,6 +293,8 @@ const Entry = ({
   useEffect(() => {
     //console.log("useEffectreached");
     if (currFileId !== fileid) {
+      if (isRenaming) {
+      }
       setHighlighted(false);
       setIsRenaming(false);
     }
@@ -311,7 +317,9 @@ const Entry = ({
   const handleRenameLocal = (e) => {
     e.preventDefault();
     setCurrFileId(fileid);
-    handleRename(inputVal);
+    if (inputVal.trim() !== "") {
+      handleRename(inputVal);
+    }
     setIsRenaming(false);
     setHighlighted(false);
   };
