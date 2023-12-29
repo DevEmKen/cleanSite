@@ -12,6 +12,7 @@ import googleplaypng from "../assets/googleplaypng.png";
 // Child components
 import ConnectFour from "./ConnectFour/ConnectFour";
 import FileTree from "./FileTree";
+import FileTreeV2 from "./FileTreeV2";
 
 // Assets
 import connectpng from "../assets/connectpng.png";
@@ -55,9 +56,9 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
     image: connectpng,
   };
   const card2 = {
-    title: "Folder Tree",
+    title: "Folder Tree V1",
     description:
-      "A visual implementation of the typical tree structure used for file directories. Supports dynamic creation and deletion of files and directories.",
+      "A visual implementation of the typical tree structure used for file directories. Supports dynamic creation and deletion of files and directories. This buggy implementation taught me the importance of state managers like Redux for complex applications.",
     image: folderpng,
   };
   const card3 = {
@@ -78,11 +79,19 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
     google:
       "https://chromewebstore.google.com/detail/reddalyzer/mkipifdfhcekkofifhbppmpkipohmaka?hl=en-US&pli=1",
   };
+  const card5 = {
+    title: "Folder Tree V2",
+    description:
+      "A file tree structure that implements Redux to manage state. Due to the interconnectedness of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
+    image: folderpng,
+  };
 
   const [connectFourHidden, setConnectFourHidden] = useState(true);
   const [fileTreeHidden, setFileTreeHidden] = useState(true);
+  const [fileTreeV2Hidden, setFileTreeV2Hidden] = useState(true);
   const [headerClicked, setHeaderClicked] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const [headerShrinking, setHeaderShrinking] = useState(false);
 
   const connectFourHandler = () => {
     setFileTreeHidden(true);
@@ -94,17 +103,13 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
     setFileTreeHidden(!fileTreeHidden);
   };
 
+  const fileTreeV2Handler = () => {
+    setFileTreeV2Hidden(!fileTreeV2Hidden);
+  };
+
   const headerClickHandler = () => {
     setHeaderClicked(true);
   };
-
-  useEffect(() => {
-    if (headerClicked) {
-      setTimeout(() => {
-        setHeaderVisible(false);
-      }, 500);
-    }
-  }, [headerClicked]);
 
   return (
     <div className="bottom-app">
@@ -117,7 +122,9 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
           // would be the package react-transition-group
           headerVisible && (
             <div
-              className={`intro-header ${headerClicked ? "header-hidden" : ""}`}
+              className={`intro-header ${
+                headerClicked ? "header-hidden" : ""
+              } `}
               onClick={headerClickHandler}
             >
               <div className="intro-top-row">
@@ -173,6 +180,18 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
           <ConnectFour connectFourHidden={connectFourHidden} />
         }
         {!fileTreeHidden && <FileTree fileTreeHidden={fileTreeHidden} />}
+        <div className="cards">
+          <ProjectCardLocal
+            title={card5.title}
+            description={card5.description}
+            image={card5.image}
+            onClickHandler={fileTreeV2Handler}
+            assetHidden={fileTreeV2Hidden}
+          />
+        </div>
+        {!fileTreeV2Hidden && (
+          <FileTreeV2 fileTreeV2Hidden={fileTreeV2Hidden} />
+        )}
       </div>
       <div className={`chat-spacer ${chatMax ? "spacer-min" : ""}`} />
     </div>

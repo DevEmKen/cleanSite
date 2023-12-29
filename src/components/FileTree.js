@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const exampleFiles = {
-  id: "root",
+  filename: "root",
   children: [
     {
       filename: "first_entry",
@@ -62,8 +62,20 @@ const FileTree = ({ fileTreeHidden }) => {
   // Used to position the context menu next to the cursor
   const [cursorPos, setCursorPos] = useState({ X: 0, Y: 0 });
   // Used by the context menu to know which file called it
-  const [currFileId, setCurrFileId] = useState("root");
+  const [currFileId, setCurrFileId] = useState("");
   const [inputVal, setInputVal] = useState("");
+
+  const findFileById = (searchId) => {
+    const findHelper = (tree) => {
+      if (!tree) return;
+      if (tree.id === searchId) {
+        return tree;
+      } else {
+        return tree.children?.map((ch) => findHelper(ch));
+      }
+    };
+    return findHelper(files);
+  };
 
   // Stops root directory from having "Rename" or "Delete" option
   const handleRootContext = (e) => {
@@ -75,7 +87,7 @@ const FileTree = ({ fileTreeHidden }) => {
     const clientY = scrollContainer.scrollTop + e.clientY - 45;
     setCursorPos({ X: clientX, Y: clientY });
     setContextMenuOpen(true);
-    setCurrFileId("root");
+    setCurrFileId(files.id);
   };
 
   const handleRenameFromContext = () => {
@@ -114,7 +126,7 @@ const FileTree = ({ fileTreeHidden }) => {
       if (tree.id === targetId) {
         return {
           ...tree,
-          filename: inputVal,
+          filename: inputVal === "" ? "New File" : inputVal,
           renaming: false,
         };
       } else {
@@ -161,9 +173,9 @@ const FileTree = ({ fileTreeHidden }) => {
     };
   };
 
-  const handleDeleteFile = () => {
+  const handleDeleteFile = (deleteId) => {
     setFiles((prevFiles) => {
-      const newFiles = deleteHelper(prevFiles, currFileId);
+      const newFiles = deleteHelper(prevFiles, deleteId || currFileId);
       return newFiles;
     });
 
@@ -172,9 +184,13 @@ const FileTree = ({ fileTreeHidden }) => {
       if (tree?.id === targetId) {
         deleteFromParent(files, tree.parentId, targetId);
       } else {
+        const newChildren = tree.children?.map((ch) =>
+          deleteHelper(ch, targetId)
+        );
         return {
           ...tree,
-          children: tree?.children?.map((ch) => deleteHelper(ch, targetId)),
+          expanded: tree.expanded && newChildren?.length > 0,
+          children: newChildren,
         };
       }
     };
@@ -190,12 +206,28 @@ const FileTree = ({ fileTreeHidden }) => {
     };
   };
 
+  // useEffect(() => {
+  //   setFiles((prevFiles) => {
+  //     const removeEmptyFiles = (tree) => {
+  //       return tree.children
+  //         ?.filter((file) => file.filename.trim() !== "")
+  //         .map((file) => {
+  //           return {
+  //             ...file,
+  //             children: file.children ? removeEmptyFiles(file.children) : null,
+  //           };
+  //         });
+  //     };
+  //     return removeEmptyFiles(prevFiles);
+  //   });
+  // }, [contextMenuOpen]);
+
   return (
     <div
       className={`f-tr ${fileTreeHidden ? "tree-hidden" : ""}`}
       onContextMenu={handleRootContext}
     >
-      {files.renaming ? (
+      {files?.renaming ? (
         <form onSubmit={handleRenameFromRoot}>
           <input
             type="text"
@@ -207,8 +239,8 @@ const FileTree = ({ fileTreeHidden }) => {
           />
         </form>
       ) : null}
-      {files.children.map((entry) => {
-        if (!entry) return null;
+      {files?.children?.map((entry) => {
+        if (!entry || entry.filename === "") return null;
         return (
           <Entry
             key={entry.id}
@@ -276,7 +308,7 @@ const Entry = ({
       setHighlighted(false);
       inputRef.current.focus();
     }
-  }, [fileObj.renaming]);
+  }, [fileObj.renaming, isRenaming]);
 
   useEffect(() => {
     setExpanded(fileObj.expanded);
@@ -285,10 +317,20 @@ const Entry = ({
   // Stops from attempting to render a null Entry if all
   // children of a component are deleted
   useEffect(() => {
+    const removeEmptyOrWhitespaceChildren = (tree) => {
+      if (!tree.children) return tree;
+
+      const newChildren = tree.children.filter((child) => {
+        return child?.filename.trim() !== "";
+      });
+
+      return { ...fileObj, children: newChildren };
+    };
+    removeEmptyOrWhitespaceChildren(fileObj);
     if (!fileObj.children) {
       setExpanded(false);
     }
-  }, [fileObj.children]);
+  }, [fileObj.children, fileObj]);
 
   useEffect(() => {
     //console.log("useEffectreached");
@@ -298,7 +340,7 @@ const Entry = ({
       setHighlighted(false);
       setIsRenaming(false);
     }
-  }, [currFileId, fileid]);
+  }, [currFileId, fileid, isRenaming]);
 
   const handleOpenContext = (e) => {
     e.preventDefault();
@@ -317,9 +359,7 @@ const Entry = ({
   const handleRenameLocal = (e) => {
     e.preventDefault();
     setCurrFileId(fileid);
-    if (inputVal.trim() !== "") {
-      handleRename(inputVal);
-    }
+    handleRename(inputVal);
     setIsRenaming(false);
     setHighlighted(false);
   };
@@ -395,19 +435,20 @@ const CustomContext = ({
   X,
   Y,
 }) => {
-  // We want the context menu to close if something else gets clicked on
-  // const handleOutsideClick = (e) => {
-  //   if (e.target !== document.querySelector(".context-btn")) {
-  //     console.log("off");
-  //     setContextMenuOpen(false);
-  //     setCurrFileId("root"); // De-highlights the previously selected file
-  //   }
-  // };
-  // // This listens for the click outside of context menu
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleOutsideClick);
-  //   return () => document.removeEventListener("mousedown", handleOutsideClick);
-  // });
+  //We want the context menu to close if something else gets clicked on
+  const handleOutsideClick = (e) => {
+    const contextMenu = document.querySelector(".custom-context");
+    if (!contextMenu.contains(e.target)) {
+      console.log("off");
+      setContextMenuOpen(false);
+      setCurrFileId(files.id); // De-highlights the previously selected file
+    }
+  };
+  // This listens for the click outside of context menu
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  });
   const handleCreateFileLocal = () => {
     handleCreateFile();
     setContextMenuOpen(false);
@@ -432,7 +473,7 @@ const CustomContext = ({
       <div className="context-btn" onClick={handleCreateFileLocal}>
         Create new file
       </div>
-      {currFileId !== "root" ? (
+      {currFileId !== files?.id ? ( // Prevents "Rename" and "Delete" from appearing on root directory
         <>
           <div
             className="context-btn"
