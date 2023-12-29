@@ -58,7 +58,7 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
   const card2 = {
     title: "Folder Tree V1",
     description:
-      "A visual implementation of the typical tree structure used for file directories. Supports dynamic creation and deletion of files and directories. This buggy implementation taught me the importance of state managers like Redux for complex applications.",
+      "A visual implementation of the typical tree structure used for file directories. Supports dynamic creation and deletion of files and directories. This buggy implementation uses callback functions to manage state instead of reducers.",
     image: folderpng,
   };
   const card3 = {
@@ -82,7 +82,7 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
   const card5 = {
     title: "Folder Tree V2",
     description:
-      "A file tree structure that implements Redux to manage state. Due to the interconnectedness of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
+      "A file tree structure that implements useReducer to manage state instead of callback functions. Due to the interconnectedness of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
     image: folderpng,
   };
 

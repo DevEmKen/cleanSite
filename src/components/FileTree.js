@@ -28,13 +28,13 @@ const exampleFiles = {
       ],
     },
     {
-      filename: "another one",
+      filename: "example file in root",
     },
     {
-      filename: "ANOTHA ONE",
+      filename: "yet_another",
       children: [
         {
-          filename: "ANOTHA ONE",
+          filename: "fileThreeDepthTwo",
         },
       ],
     },
