@@ -245,7 +245,7 @@
 
 .custom-context {
   width: 7rem;
-  background: rebeccapurple;
+  background: white;
   &.context-hide {
     opacity: 0;
     visibility: hidden;
@@ -253,4 +253,9 @@
 }
 
 .context-btn {
+  cursor: pointer;
+  &:hover {
+    background: rgb(197, 197, 197);
+  }
+  margin: 1px;
 }

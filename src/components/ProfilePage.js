@@ -82,7 +82,7 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
   const card5 = {
     title: "Folder Tree V2",
     description:
-      "A file tree structure that implements useReducer to manage state instead of callback functions. Due to the interconnectedness of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
+      "A file tree structure that implements useReducer to manage state instead of callback functions. Due to the recursive yet interconnected nature of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
     image: folderpng,
   };
 

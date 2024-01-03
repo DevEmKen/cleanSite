@@ -161,7 +161,7 @@ const Sidebar = ({ musicMax, setAboutMeVisible }) => {
   };
   const resumeHandler = () => {
     window.open(
-      "https://drive.google.com/file/d/15LGgkwKGW8JBRso1Ghfz4ND2keMGWnKW/view?usp=sharing",
+      "https://drive.google.com/file/d/1gAzDyCKX3BdHQi0V2aAbB4vEuXvD8Xqo/view",
       "_blank",
       "noreferrer"
     );

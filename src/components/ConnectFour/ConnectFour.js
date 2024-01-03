@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import redCir from "./red.svg";
 import blackCir from "./black.svg";
@@ -127,6 +127,15 @@ const Board = ({
     }
     return count;
   };
+
+  // Pre-load the red/black images to prevent lag on first moves
+  useEffect(() => {
+    const img1 = new Image();
+    const img2 = new Image();
+
+    img1.src = redCir;
+    img2.src = blackCir;
+  }, []);
 
   const songColor = {
     background: "#E78383",
