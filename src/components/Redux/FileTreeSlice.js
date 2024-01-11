@@ -1,42 +1,95 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const counterSlice = createSlice({
-  name: "counter",
-  initialState: {
-    value: 0,
-  },
+export const fileTreeSlice = createSlice({
+  name: "fileTree",
+  initialState: enhanceFiles(exampleFiles, ""),
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    highlightNode(state, action) {
+      const currId = action.payload;
+      const highlightNodeRecursive = (file) => {
+        if (file.id === currId) {
+          file.isHighlighted = true;
+        } else {
+          file.isHighlighted = false;
+        }
+        file.children?.forEach((child) => highlightNodeRecursive(child));
+      };
+
+      highlightNodeRecursive(state);
     },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    renameNode(state, action) {
+      currId = action.payload;
+      const renameNodeRecursive = (file) => {
+        if (file.id === currId) {
+          file.isRenaming = true;
+        } else {
+          file.isRenaming = false;
+        }
+        file.children?.forEach((child) => renameNodeRecursive(child));
+      };
+      renameNodeRecursive(state);
     },
   },
 });
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-export const incrementAsync = (amount) => (dispatch) => {
-  setTimeout(() => {
-    dispatch(incrementByAmount(amount));
-  }, 1000);
+const enhanceFiles = (file, parentId) => {
+  const currId = uuidv4();
+  return {
+    ...file,
+    id: parentId !== "" ? currId : "root",
+    isHighlighted: false,
+    isRenaming: false,
+    isExpanded: false,
+    parentId: parentId,
+    children: file.children
+      ? file.children.map((child) => enhanceFiles(child, currId))
+      : null,
+  };
 };
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectCount = (state) => state.counter.value;
+const exampleFiles = {
+  filename: "root",
+  children: [
+    {
+      filename: "first_entry",
+      children: [
+        {
+          filename: "second entry",
+          children: [
+            {
+              filename: "depth three",
+              children: [
+                {
+                  filename: "depth four",
+                  children: [
+                    {
+                      filename: "depth five",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      filename: "another one",
+    },
+    {
+      filename: "ANOTHA ONE",
+      children: [
+        {
+          filename: "ANOTHA ONE",
+        },
+      ],
+    },
+    {
+      filename: "quatttro",
+    },
+  ],
+};
+
+export const { highlightNode, renameNode } = counterSlice.actions;
 
 export default counterSlice.reducer;
