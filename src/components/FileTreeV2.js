@@ -1,52 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { connect } from "react-redux";
-
-const exampleFiles = {
-  filename: "root",
-  children: [
-    {
-      filename: "first_entry",
-      children: [
-        {
-          filename: "second entry",
-          children: [
-            {
-              filename: "depth three",
-              children: [
-                {
-                  filename: "depth four",
-                  children: [
-                    {
-                      filename: "depth five",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      filename: "another one",
-    },
-    {
-      filename: "ANOTHA ONE",
-      children: [
-        {
-          filename: "ANOTHA ONE",
-        },
-      ],
-    },
-    {
-      filename: "quatttro",
-    },
-  ],
-};
+import { useSelector, useDispatch } from "react-redux";
 
 const FileTreeV2 = () => {
-  return <></>;
+  const files = useSelector((state) => state.fileTreeReds);
+  const dispatch = useDispatch();
+  return (
+    <div className="root-dir">
+      {files?.children?.map((file) => {
+        return <Entry file={file}></Entry>;
+      })}
+    </div>
+  );
+};
+
+const Entry = ({ file }) => {
+  return <div className="entry">WUZ GOOD</div>;
 };
 
 export default FileTreeV2;

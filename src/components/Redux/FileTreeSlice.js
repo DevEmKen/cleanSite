@@ -1,36 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export const fileTreeSlice = createSlice({
-  name: "fileTree",
-  initialState: enhanceFiles(exampleFiles, ""),
-  reducers: {
-    highlightNode(state, action) {
-      const currId = action.payload;
-      const highlightNodeRecursive = (file) => {
-        if (file.id === currId) {
-          file.isHighlighted = true;
-        } else {
-          file.isHighlighted = false;
-        }
-        file.children?.forEach((child) => highlightNodeRecursive(child));
-      };
-
-      highlightNodeRecursive(state);
-    },
-    renameNode(state, action) {
-      currId = action.payload;
-      const renameNodeRecursive = (file) => {
-        if (file.id === currId) {
-          file.isRenaming = true;
-        } else {
-          file.isRenaming = false;
-        }
-        file.children?.forEach((child) => renameNodeRecursive(child));
-      };
-      renameNodeRecursive(state);
-    },
-  },
-});
+import { v4 as uuidv4 } from "uuid";
+import exampleFiles from "./ExampleFiles";
 
 const enhanceFiles = (file, parentId) => {
   const currId = uuidv4();
@@ -47,49 +17,100 @@ const enhanceFiles = (file, parentId) => {
   };
 };
 
-const exampleFiles = {
-  filename: "root",
-  children: [
-    {
-      filename: "first_entry",
-      children: [
-        {
-          filename: "second entry",
-          children: [
-            {
-              filename: "depth three",
-              children: [
-                {
-                  filename: "depth four",
-                  children: [
-                    {
-                      filename: "depth five",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+export const FileTreeSlice = createSlice({
+  name: "FileTreeSlice",
+  initialState: enhanceFiles(exampleFiles, ""),
+  reducers: {
+    highlightNode(state, action) {
+      const currId = action.payload;
+      traverseAndUpdateAll(
+        state,
+        (file) => file.id === currId,
+        (file) => (file.isHighlighted = true),
+        (file) => (file.isHighlighted = false)
+      );
     },
-    {
-      filename: "another one",
+    startRenamingNode(state, action) {
+      const currId = action.payload;
+      traverseAndUpdateAll(
+        state,
+        (file) => file.id === currId,
+        (file) => (file.isRenaming = true)
+      );
     },
-    {
-      filename: "ANOTHA ONE",
-      children: [
-        {
-          filename: "ANOTHA ONE",
-        },
-      ],
+    stopRenamingNode(state, action) {
+      const { currId, newName } = action.payload;
+      traverseAndUpdateAll(
+        state,
+        (file) => file.id === currId,
+        (file) => {
+          file.isRenaming = false;
+          file.filename = newName;
+        }
+      );
     },
-    {
-      filename: "quatttro",
+    deleteNode(state, action) {
+      const { currId, parenId } = action.payload;
+      traverseAndUpdateAll(
+        state,
+        (file) => file.id === parenId,
+        (file) => {
+          const removeInd = file.children.findIndex(
+            (child) => child.id === currId
+          );
+          if (removeInd !== -1) {
+            file.splice(removeInd, 1);
+          }
+        }
+      );
     },
-  ],
+    createNode(state, action) {
+      const currId = action.payload; // The node we will create the child under
+      const newNode = {
+        filename: "New File",
+        id: uuidv4(),
+        isHighlighted: false,
+        isRenaming: true,
+        isExpanded: false,
+        parentId: currId,
+        children: null,
+      };
+      traverseAndUpdateAll(
+        state,
+        (file) => file.id === currId,
+        (file) => {
+          file.isExpanded = true;
+          file.children.push(newNode);
+        }
+      );
+    },
+    toggleExpandCollapseNode(state, action) {
+      const currId = action.payload;
+      traverseAndUpdateAll(
+        state,
+        (file) => file.id === currId,
+        (file) => (file.isExpanded = !file.isExpanded)
+      );
+    },
+  },
+});
+
+const traverseAndUpdateAll = (
+  file,
+  conditionFunc,
+  matchFunc,
+  noMatchFunc = () => {}
+) => {
+  if (conditionFunc(file)) {
+    matchFunc(file);
+  } else {
+    noMatchFunc(file);
+  }
+  file.children?.forEach((child) =>
+    traverseAndUpdateAll(child, conditionFunc, matchFunc, noMatchFunc)
+  );
 };
 
-export const { highlightNode, renameNode } = counterSlice.actions;
+export const { highlightNode, renameNode } = FileTreeSlice.actions;
 
-export default counterSlice.reducer;
+export default FileTreeSlice.reducer;
