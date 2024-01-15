@@ -1,9 +1,24 @@
 .root-dir {
   width: 40vw;
   height: 40vh;
-  background-color: lightgray;
+  background-color: white;
 }
 
-.entry {
-  background-color: purple;
+.file-slot {
+  background-color: white;
+  display: flex;
+  &:hover {
+    background-color: lightgray;
+  }
+  &.highlighted {
+    background-color: green;
+  }
+}
+
+.context-select {
+  background-color: white;
+  display: flex;
+  &:hover {
+    background-color: lightgray;
+  }
 }

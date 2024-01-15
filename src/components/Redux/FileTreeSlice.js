@@ -17,6 +17,28 @@ const enhanceFiles = (file, parentId) => {
   };
 };
 
+const traverseAndUpdateAll = (
+  file,
+  conditionFunc,
+  matchFunc,
+  noMatchFunc = () => {}
+) => {
+  // On every pass, clean up empty child arrays by setting to null
+  // (Prevents erroneous +/- expand buttons from existing)
+  if (file.children?.length === 0) {
+    file.children = null;
+  }
+  // Then recursively execute the provided functions
+  if (conditionFunc(file)) {
+    matchFunc(file);
+  } else {
+    noMatchFunc(file);
+  }
+  file.children?.forEach((child) =>
+    traverseAndUpdateAll(child, conditionFunc, matchFunc, noMatchFunc)
+  );
+};
+
 export const FileTreeSlice = createSlice({
   name: "FileTreeSlice",
   initialState: enhanceFiles(exampleFiles, ""),
@@ -30,6 +52,10 @@ export const FileTreeSlice = createSlice({
         (file) => (file.isHighlighted = false)
       );
     },
+    // startRenamingNode and stopRenamingNode currently allow for multiple nodes to be renaming at once.
+    // This is non-standard behavior compared to most file trees, but not necessarily a "bug".
+    // If we want to prevent this, the context menu needs to keep track of the initial name of
+    // the last file it started renaming for, in case an invalid whitespace name is submitted.
     startRenamingNode(state, action) {
       const currId = action.payload;
       traverseAndUpdateAll(
@@ -65,9 +91,9 @@ export const FileTreeSlice = createSlice({
       );
     },
     createNode(state, action) {
-      const currId = action.payload; // The node we will create the child under
+      const currId = action.payload; // The node to create the child under
       const newNode = {
-        filename: "New File",
+        filename: "New File", // Will only show if a whitespace name is submitted initally
         id: uuidv4(),
         isHighlighted: false,
         isRenaming: true,
@@ -95,22 +121,13 @@ export const FileTreeSlice = createSlice({
   },
 });
 
-const traverseAndUpdateAll = (
-  file,
-  conditionFunc,
-  matchFunc,
-  noMatchFunc = () => {}
-) => {
-  if (conditionFunc(file)) {
-    matchFunc(file);
-  } else {
-    noMatchFunc(file);
-  }
-  file.children?.forEach((child) =>
-    traverseAndUpdateAll(child, conditionFunc, matchFunc, noMatchFunc)
-  );
-};
-
-export const { highlightNode, renameNode } = FileTreeSlice.actions;
+export const {
+  highlightNode,
+  startRenamingNode,
+  stopRenamingNode,
+  deleteNode,
+  createNode,
+  toggleExpandCollapseNode,
+} = FileTreeSlice.actions;
 
 export default FileTreeSlice.reducer;
