@@ -60,7 +60,7 @@ export const FileTreeSlice = createSlice({
       const currId = action.payload;
       traverseAndUpdateAll(
         state,
-        (file) => file.id === currId,
+        (file) => file.highlighted === currId,
         (file) => (file.isRenaming = true)
       );
     },

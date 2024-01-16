@@ -16,8 +16,12 @@
 }
 
 .context-select {
+  position: absolute;
   background-color: white;
-  display: flex;
+  display: inline;
+}
+
+.context-select-item {
   &:hover {
     background-color: lightgray;
   }

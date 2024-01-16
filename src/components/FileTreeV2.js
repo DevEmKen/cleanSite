@@ -100,14 +100,20 @@ const Entry = ({
 
 const ContextMenu = ({ contextMenuOpen, setContextMenuOpen, cursorPos }) => {
   const dispatch = useDispatch();
-  const handleOutsideClick = (e) => {
-    const contextMenu = document.querySelector(".context-select");
-    if (!contextMenu.contains(e.target)) {
-      console.log("off");
-      setContextMenuOpen(false);
-      dispatch(highlightNode(null));
-    }
-  };
+  // This handler and the useEffect below it are used to close the context menu
+  // when the user clicks outside of it
+  // const handleOutsideClick = (e) => {
+  //   const contextMenu = document.querySelector(".context-select");
+  //   if (contextMenu && !contextMenu.contains(e.target)) {
+  //     console.log("off");
+  //     setContextMenuOpen(false);
+  //     dispatch(highlightNode(null));
+  //   }
+  // };
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleOutsideClick);
+  //   return () => document.removeEventListener("mousedown", handleOutsideClick);
+  // });
 
   const contextStyle = {
     top: cursorPos.Y,
@@ -125,7 +131,7 @@ const ContextMenu = ({ contextMenuOpen, setContextMenuOpen, cursorPos }) => {
               setContextMenuOpen(false);
             }}
           >
-            Create
+            Create file
           </div>
           <div
             className="context-select-item"
@@ -134,7 +140,7 @@ const ContextMenu = ({ contextMenuOpen, setContextMenuOpen, cursorPos }) => {
               setContextMenuOpen(false);
             }}
           >
-            Delete
+            Delete file
           </div>
           <div
             className="context-select-item"
@@ -143,10 +149,10 @@ const ContextMenu = ({ contextMenuOpen, setContextMenuOpen, cursorPos }) => {
               setContextMenuOpen(false);
             }}
           >
-            Rename
+            Rename file
           </div>
         </div>
-      ) : null}{" "}
+      ) : null}
     </>
   );
 };
