@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFile, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import {
   highlightNode,
@@ -13,10 +15,27 @@ const FileTreeV2 = () => {
   const files = useSelector((state) => state.FileTreeSlice);
   const dispatch = useDispatch();
   const [cursorPos, setCursorPos] = useState({ X: 0, Y: 0 });
-  const [contextMenuOpen, setContextMenuOpen] = useState(false);
+  const [contextMenuOpen, setContextMenuOpen] = useState({
+    isOpen: false,
+    fromRoot: false,
+  });
+
+  const handleRootContext = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const clientX = e.clientX + 5;
+    const clientY =
+      e.clientY + document.querySelector(".prof-page").scrollTop - 45;
+    setCursorPos({ X: clientX, Y: clientY });
+
+    setContextMenuOpen({ isOpen: true, fromRoot: true });
+    dispatch(highlightNode("root"));
+  };
+
   return (
     <>
-      <div className="root-dir">
+      <div className="root-dir" onContextMenu={handleRootContext}>
         {files?.children?.map((file) => {
           return (
             <Entry
@@ -47,6 +66,7 @@ const Entry = ({
   setContextMenuOpen,
 }) => {
   const dispatch = useDispatch();
+  const [inputVal, setInputVal] = useState("");
 
   const handleExpand = () => {
     dispatch(toggleExpandCollapseNode(file.id));
@@ -61,8 +81,13 @@ const Entry = ({
       e.clientY + document.querySelector(".prof-page").scrollTop - 45;
     setCursorPos({ X: clientX, Y: clientY });
 
-    setContextMenuOpen(true);
+    setContextMenuOpen({ isOpen: true, fromRoot: false });
     dispatch(highlightNode(file.id));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(stopRenamingNode({ currId: file.id, newName: inputVal }));
   };
 
   return (
@@ -73,11 +98,28 @@ const Entry = ({
         onContextMenu={handleOpenContext}
       >
         {file.children ? (
-          <div className="expand-button">{file.isExpanded ? "-" : "+"}</div>
+          <FontAwesomeIcon
+            icon={faAngleDown}
+            className={
+              "file-icon " + (file.isExpanded ? "angle-down" : "angle-right")
+            }
+          />
         ) : (
-          <div className="file-icon">.</div>
+          <FontAwesomeIcon icon={faFile} className="file-icon pic" />
         )}
-        {file.filename}
+        {file.isRenaming ? (
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              autoFocus
+              defaultValue={file.filename}
+              onSubmit={handleSubmit}
+              onChange={(e) => setInputVal(e.target.value)}
+            ></input>
+          </form>
+        ) : (
+          file.filename
+        )}
       </div>
       {file.children && file.isExpanded
         ? file.children.map((child) => {
@@ -102,18 +144,17 @@ const ContextMenu = ({ contextMenuOpen, setContextMenuOpen, cursorPos }) => {
   const dispatch = useDispatch();
   // This handler and the useEffect below it are used to close the context menu
   // when the user clicks outside of it
-  // const handleOutsideClick = (e) => {
-  //   const contextMenu = document.querySelector(".context-select");
-  //   if (contextMenu && !contextMenu.contains(e.target)) {
-  //     console.log("off");
-  //     setContextMenuOpen(false);
-  //     dispatch(highlightNode(null));
-  //   }
-  // };
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleOutsideClick);
-  //   return () => document.removeEventListener("mousedown", handleOutsideClick);
-  // });
+  const handleOutsideClick = (e) => {
+    const contextMenu = document.querySelector(".context-select");
+    if (contextMenu && !contextMenu.contains(e.target)) {
+      setContextMenuOpen({ isOpen: false, fromRoot: false });
+      dispatch(highlightNode(null));
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  });
 
   const contextStyle = {
     top: cursorPos.Y,
@@ -122,35 +163,39 @@ const ContextMenu = ({ contextMenuOpen, setContextMenuOpen, cursorPos }) => {
 
   return (
     <>
-      {contextMenuOpen ? (
+      {contextMenuOpen.isOpen ? (
         <div className="context-select" style={contextStyle}>
           <div
             className="context-select-item"
             onClick={() => {
               dispatch(createNode());
-              setContextMenuOpen(false);
+              setContextMenuOpen({ isOpen: false, fromRoot: false });
             }}
           >
-            Create file
+            <h3>Create file</h3>
           </div>
-          <div
-            className="context-select-item"
-            onClick={() => {
-              dispatch(deleteNode());
-              setContextMenuOpen(false);
-            }}
-          >
-            Delete file
-          </div>
-          <div
-            className="context-select-item"
-            onClick={() => {
-              dispatch(startRenamingNode());
-              setContextMenuOpen(false);
-            }}
-          >
-            Rename file
-          </div>
+          {contextMenuOpen.fromRoot === false ? (
+            <>
+              <div
+                className="context-select-item"
+                onClick={() => {
+                  dispatch(deleteNode());
+                  setContextMenuOpen({ isOpen: false, fromRoot: false });
+                }}
+              >
+                <h3>Delete file</h3>
+              </div>
+              <div
+                className="context-select-item"
+                onClick={() => {
+                  dispatch(startRenamingNode());
+                  setContextMenuOpen({ isOpen: false, fromRoot: false });
+                }}
+              >
+                <h3>Rename file</h3>
+              </div>
+            </>
+          ) : null}
         </div>
       ) : null}
     </>

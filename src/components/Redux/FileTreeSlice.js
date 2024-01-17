@@ -3,16 +3,16 @@ import { v4 as uuidv4 } from "uuid";
 import exampleFiles from "./ExampleFiles";
 
 const enhanceFiles = (file, parentId) => {
-  const currId = uuidv4();
+  const id = parentId === "call" ? "root" : uuidv4();
   return {
     ...file,
-    id: parentId !== "" ? currId : "root",
+    id: id,
     isHighlighted: false,
     isRenaming: false,
     isExpanded: false,
     parentId: parentId,
     children: file.children
-      ? file.children.map((child) => enhanceFiles(child, currId))
+      ? file.children.map((child) => enhanceFiles(child, id))
       : null,
   };
 };
@@ -23,11 +23,6 @@ const traverseAndUpdateAll = (
   matchFunc,
   noMatchFunc = () => {}
 ) => {
-  // On every pass, clean up empty child arrays by setting to null
-  // (Prevents erroneous +/- expand buttons from existing)
-  if (file.children?.length === 0) {
-    file.children = null;
-  }
   // Then recursively execute the provided functions
   if (conditionFunc(file)) {
     matchFunc(file);
@@ -41,7 +36,7 @@ const traverseAndUpdateAll = (
 
 export const FileTreeSlice = createSlice({
   name: "FileTreeSlice",
-  initialState: enhanceFiles(exampleFiles, ""),
+  initialState: enhanceFiles(exampleFiles, "call"),
   reducers: {
     highlightNode(state, action) {
       const currId = action.payload;
@@ -56,12 +51,14 @@ export const FileTreeSlice = createSlice({
     // This is non-standard behavior compared to most file trees, but not necessarily a "bug".
     // If we want to prevent this, the context menu needs to keep track of the initial name of
     // the last file it started renaming for, in case an invalid whitespace name is submitted.
-    startRenamingNode(state, action) {
-      const currId = action.payload;
+    startRenamingNode(state) {
       traverseAndUpdateAll(
         state,
-        (file) => file.highlighted === currId,
-        (file) => (file.isRenaming = true)
+        (file) => file.isHighlighted === true,
+        (file) => {
+          file.isRenaming = true;
+          file.isHighlighted = false;
+        }
       );
     },
     stopRenamingNode(state, action) {
@@ -71,42 +68,69 @@ export const FileTreeSlice = createSlice({
         (file) => file.id === currId,
         (file) => {
           file.isRenaming = false;
-          file.filename = newName;
-        }
-      );
-    },
-    deleteNode(state, action) {
-      const { currId, parenId } = action.payload;
-      traverseAndUpdateAll(
-        state,
-        (file) => file.id === parenId,
-        (file) => {
-          const removeInd = file.children.findIndex(
-            (child) => child.id === currId
-          );
-          if (removeInd !== -1) {
-            file.splice(removeInd, 1);
+          file.isHighlighted = false;
+          if (newName.trim() !== "") {
+            file.filename = newName;
           }
         }
       );
     },
-    createNode(state, action) {
-      const currId = action.payload; // The node to create the child under
+    deleteNode(state) {
+      const root = state;
+      // This code structure suggests O(n^2), but since "file.isHighlighted === true" only
+      // matches once, the traverseAndUpdateAll calls are effectively sequential and
+      // therefore O(2n).
+      traverseAndUpdateAll(
+        state,
+        (file) => file.isHighlighted === true,
+        (file) => {
+          const childId = file.id;
+          const parentId = file.parentId;
+          traverseAndUpdateAll(
+            root,
+            (f) => f.id === parentId,
+            (f) => {
+              const index = f.children.findIndex(
+                (child) => child.id === childId
+              );
+              if (index !== -1) {
+                f.children.splice(index, 1);
+              }
+            }
+          );
+        }
+      );
+      // Delete empty child arrays to prevent
+      // unnecessary expansion arrows from showing
+      traverseAndUpdateAll(
+        state,
+        (file) => true,
+        (file) => {
+          if (file.children?.length === 0) {
+            file.children = null;
+          }
+        }
+      );
+    },
+    createNode(state) {
       const newNode = {
-        filename: "New File", // Will only show if a whitespace name is submitted initally
+        filename: "New File",
         id: uuidv4(),
         isHighlighted: false,
         isRenaming: true,
         isExpanded: false,
-        parentId: currId,
         children: null,
       };
       traverseAndUpdateAll(
         state,
-        (file) => file.id === currId,
+        (file) => file.isHighlighted === true,
         (file) => {
           file.isExpanded = true;
-          file.children.push(newNode);
+          file.isHighlighted = false;
+          if (!file.children) {
+            file.children = [];
+          }
+          file.children.push({ ...newNode, parentId: file.id });
         }
       );
     },
