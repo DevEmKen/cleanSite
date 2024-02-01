@@ -6,6 +6,7 @@ import {
   faCircleXmark,
   faMitten,
   faHand,
+  faTableList,
 } from "@fortawesome/free-solid-svg-icons";
 import githubpng from "../assets/githubpng.png";
 import googleplaypng from "../assets/googleplaypng.png";
@@ -13,6 +14,7 @@ import googleplaypng from "../assets/googleplaypng.png";
 import ConnectFour from "./ConnectFour/ConnectFour";
 import FileTree from "./FileTree";
 import FileTreeV2 from "./FileTreeV2";
+import UserTable from "./UserTable.tsx";
 
 // Assets
 import connectpng from "../assets/connectpng.png";
@@ -20,6 +22,7 @@ import folderpng from "../assets/folderspng.png";
 import wordscramblepng from "../assets/wordscramblepng.png";
 import reddalyzer from "../assets/reddalyzer.png";
 import profpic from "../assets/profpic.jpg";
+import tablepng from "../assets/tablepng.png";
 
 const ProfilePage = ({
   currSong,
@@ -82,13 +85,20 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
   const card5 = {
     title: "Folder Tree V2",
     description:
-      "A file tree structure that implements useReducer to manage state instead of callback functions. Due to the recursive yet interconnected nature of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
+      "A file tree structure that implements Redux to manage state instead of callback functions. Due to the recursive yet interconnected nature of the components within a file tree, this is a far cleaner, less buggy implementation than V1.",
     image: folderpng,
+  };
+  const card6 = {
+    title: "User Table",
+    description:
+      "A table structure that downloads data from the randomuser.me API and displays it. Allows for sorting by property. Implements Redux and Typescript. Doesn't use an external table library like Table or React-Table.",
+    image: tablepng,
   };
 
   const [connectFourHidden, setConnectFourHidden] = useState(true);
   const [fileTreeHidden, setFileTreeHidden] = useState(true);
   const [fileTreeV2Hidden, setFileTreeV2Hidden] = useState(true);
+  const [userTableHidden, setUserTableHidden] = useState(true);
   const [headerClicked, setHeaderClicked] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [headerShrinking, setHeaderShrinking] = useState(false);
@@ -105,6 +115,10 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
 
   const fileTreeV2Handler = () => {
     setFileTreeV2Hidden(!fileTreeV2Hidden);
+  };
+
+  const userTableHandler = () => {
+    setUserTableHidden(!userTableHidden);
   };
 
   const headerClickHandler = () => {
@@ -188,10 +202,18 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
             onClickHandler={fileTreeV2Handler}
             assetHidden={fileTreeV2Hidden}
           />
+          <ProjectCardLocal
+            title={card6.title}
+            description={card6.description}
+            image={card6.image}
+            onClickHandler={userTableHandler}
+            assetHidden={userTableHidden}
+          />
         </div>
         {!fileTreeV2Hidden && (
           <FileTreeV2 fileTreeV2Hidden={fileTreeV2Hidden} />
         )}
+        {!userTableHidden && <UserTable />}
       </div>
       <div className={`chat-spacer ${chatMax ? "spacer-min" : ""}`} />
     </div>

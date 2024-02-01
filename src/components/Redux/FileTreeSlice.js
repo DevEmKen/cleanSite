@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import exampleFiles from "./ExampleFiles";
 
 const enhanceFiles = (file, parentId) => {
-  const id = parentId === "call" ? "root" : uuidv4();
+  const id = parentId === "init" ? "root" : uuidv4();
   return {
     ...file,
     id: id,
@@ -23,7 +23,6 @@ const traverseAndUpdateAll = (
   matchFunc,
   noMatchFunc = () => {}
 ) => {
-  // Then recursively execute the provided functions
   if (conditionFunc(file)) {
     matchFunc(file);
   } else {
@@ -36,7 +35,7 @@ const traverseAndUpdateAll = (
 
 export const FileTreeSlice = createSlice({
   name: "FileTreeSlice",
-  initialState: enhanceFiles(exampleFiles, "call"),
+  initialState: enhanceFiles(exampleFiles, "init"),
   reducers: {
     highlightNode(state, action) {
       const currId = action.payload;
@@ -104,7 +103,7 @@ export const FileTreeSlice = createSlice({
       // unnecessary expansion arrows from showing
       traverseAndUpdateAll(
         state,
-        (file) => true,
+        () => true,
         (file) => {
           if (file.children?.length === 0) {
             file.children = null;

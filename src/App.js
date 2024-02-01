@@ -169,7 +169,13 @@ const Sidebar = ({ musicMax, setAboutMeVisible }) => {
   const githubHandler = () => {
     window.open("https://github.com/devemken", "_blank", "noreferrer");
   };
-
+  const sourceCodeHandler = () => {
+    window.open(
+      "https://github.com/DevEmKen/cleanSite",
+      "_blank",
+      "noreferrer"
+    );
+  };
   return (
     <ul id="Sidebar" className={`side-bar ${musicMax ? "side-min" : ""}`}>
       <li onClick={aboutMeHandler} onAuxClick={aboutMeHandler}>
@@ -180,6 +186,11 @@ const Sidebar = ({ musicMax, setAboutMeVisible }) => {
       </li>
       <li onClick={githubHandler} onAuxClick={githubHandler}>
         Github
+      </li>
+      <li onClick={sourceCodeHandler} onAuxClick={sourceCodeHandler}>
+        Source
+        <br />
+        Code
       </li>
     </ul>
   );
