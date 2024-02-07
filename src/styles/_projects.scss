@@ -120,7 +120,7 @@
   margin-top: 6vh;
   margin-bottom: 2vh;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: rgba(0, 0, 0, 0.05);
   }
   &.local {
     cursor: pointer;
@@ -128,7 +128,7 @@
 
   &.active {
     box-shadow: rgba(0, 0, 0, 0.32) 0px 4px 9px, rgba(0, 0, 0, 0.46) 0px 4px 9px;
-    background-color: rgba(177, 177, 177, 0.15);
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
   h1 {

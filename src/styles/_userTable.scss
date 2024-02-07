@@ -3,9 +3,14 @@
 }
 
 .table-title {
+  display: flex;
+  justify-content: space-between;
   border: 1px solid black;
   padding: 3px;
   background-color: beige;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .table-row {

@@ -69,7 +69,7 @@ const Projects = ({ chatMax, musicMax, aboutMeVisible, setAboutMeVisible }) => {
     description:
       "Boggle-like app (Java, Android Studio) that recursively solves the board, utilizing multithreading to improve user experience and reduce stuttering.",
     image: wordscramblepng,
-    github: "https://github.com/DevEmKen/WordScramble",
+    github: "https://github.com/DevEmKen/Wordscramble-source",
     google:
       "https://play.google.com/store/apps/details?id=com.em.wscramble&pli=1",
   };
